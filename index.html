@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sitesh Madkaikar — Software Engineer</title>
+    <title>Sitesh Madkaikar  Software Engineer</title>
     <meta name="description" content="Sitesh Madkaikar is a software engineer from Goa, India specializing in Laravel/PHP backends, relational databases, and Linux-based infrastructure.">
     <meta name="theme-color" content="#f4f1ea">
 
@@ -22,7 +22,7 @@
     <meta property="og:url" content="https://YOUR-USERNAME.github.io/REPO-NAME/">
     <meta property="og:image" content="https://YOUR-USERNAME.github.io/REPO-NAME/assets/profile.jpg">
     -->
-    <meta property="og:title" content="Sitesh Madkaikar — Software Engineer">
+    <meta property="og:title" content="Sitesh Madkaikar  Software Engineer">
     <meta property="og:description" content="Full-stack Laravel/PHP engineer building reliable backends, clean databases, and Linux-based infrastructure. Goa, India.">
     <meta property="og:type" content="website">
 
@@ -172,7 +172,10 @@
 
         /* --- HERO --- */
         .hero { min-height: 92vh; min-height: 92svh; display: flex; flex-direction: column; justify-content: center; padding: 64px 0 56px; position: relative; }
-        .hero-meta { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--muted); margin-bottom: 48px; }
+        .hero-meta { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; color: var(--muted); margin-bottom: 48px; }
+        .hero-meta .hm-left { text-align: left; }
+        .hero-meta .hero-loc { text-align: center; }
+        .hero-meta .hm-right { text-align: right; }
         .hero-name {
             font-family: var(--sans); font-weight: 700;
             font-size: clamp(56px, 11vw, 150px);
@@ -228,12 +231,16 @@
             filter: grayscale(1) contrast(1.05); transition: filter 0.4s ease, transform 0.4s ease;
         }
         .figure:hover img { filter: none; transform: rotate(-1.5deg); }
+        /* Touch devices have no hover  show photo in color */
+        @media (hover: none) {
+            .figure img { filter: none; }
+        }
         .figure figcaption { margin-top: 12px; color: var(--muted); }
         .sticker { position: absolute; top: -34px; right: -30px; width: 96px; height: 96px; animation: spin 14s linear infinite; }
         .sticker svg { width: 100%; height: 100%; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Skills — bordered grid, hover invert */
+        /* Skills  bordered grid, hover invert */
         .spec-grid { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink); border-left: 1px solid var(--ink); }
         .spec-cell {
             border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink);
@@ -293,6 +300,7 @@
         .footer-grid { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; border-top: 1px solid var(--line); margin-top: 72px; padding-top: 20px; color: var(--muted); }
         .footer-grid a { text-decoration: none; }
         .footer-grid a:hover { color: var(--accent); }
+        .footer-joke { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px dashed var(--line); color: var(--muted); font-size: 11px; }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 900px) {
@@ -310,6 +318,8 @@
             .spec-grid { grid-template-columns: 1fr; }
             section.block { padding: 72px 0; }
             .sticker { width: 76px; height: 76px; top: -26px; right: -8px; }
+            .hero-meta { grid-template-columns: 1fr; text-align: center; }
+            .hero-meta .hm-left, .hero-meta .hm-right { text-align: center; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -360,9 +370,9 @@
         <section class="hero" id="hero">
             <div class="wrap">
                 <div class="hero-meta mono">
-                    <span>Portfolio © <span id="year">2026</span></span>
-                    <span>Goa, India — <span id="clock">IST</span></span>
-                    <span class="accent">▪ Available for work</span>
+                    <span class="hm-left">Portfolio © <span id="year">2026</span></span>
+                    <span class="hero-loc">15°29′56″N 73°49′40″E  Panjim, Goa  <span id="clock">IST</span></span>
+                    <span class="accent hm-right">▪ Available for work</span>
                 </div>
 
                 <h1 class="hero-name reveal">
@@ -372,7 +382,7 @@
 
                 <div class="hero-role reveal" style="--d:0.1s">
                     <span class="line"></span>
-                    <p>Software Engineer — building reliable backends, clean databases & self-hosted infrastructure.</p>
+                    <p>Software Engineer  building reliable backends, clean databases &amp; self-hosted infrastructure.</p>
                 </div>
 
                 <div class="hero-cta reveal" style="--d:0.2s">
@@ -402,13 +412,13 @@
                     <aside class="block-aside mono">
                         <div class="sticky">
                             <p>Profile</p>
-                            <p>B.E. Information Technology — Goa College of Engineering</p>
+                            <p>B.E. Information Technology  Goa College of Engineering</p>
                         </div>
                     </aside>
                     <div>
                         <p class="about-lede reveal">I engineer <span class="hl">monolithic backends</span> built for raw execution speed, clean relational databases, and <span class="hl">modern UI</span> implementation.</p>
                         <div class="about-body reveal" style="--d:0.1s">
-                            <p>My core expertise lies within the Laravel/PHP ecosystem, alongside low-level hardware setups like Raspberry Pi network administration. I write code that doesn't just work — it scales cleanly.</p>
+                            <p>My core expertise lies within the Laravel/PHP ecosystem, alongside low-level hardware setups like Raspberry Pi network administration. I write code that doesn't just work  it scales cleanly.</p>
                         </div>
                         <figure class="figure reveal" style="--d:0.15s">
                             <div class="sticker" aria-hidden="true">
@@ -422,7 +432,7 @@
                                 </svg>
                             </div>
                             <img src="assets/profile.jpg" alt="Portrait of Sitesh Madkaikar" loading="lazy" decoding="async">
-                            <figcaption class="mono">Fig. 01 — S. Madkaikar, Goa</figcaption>
+                            <figcaption class="mono">Fig. 01  S. Madkaikar, Goa</figcaption>
                         </figure>
                     </div>
                 </div>
@@ -447,12 +457,12 @@
                     <div class="spec-grid reveal">
                         <div class="spec-cell">
                             <span class="spec-num">/01</span>
-                            <span class="spec-cat">Backend & Core</span>
+                            <span class="spec-cat">Backend &amp; Core</span>
                             <span class="spec-val">PHP 8.x · Laravel · C/C++</span>
                         </div>
                         <div class="spec-cell">
                             <span class="spec-num">/02</span>
-                            <span class="spec-cat">Data & Storage</span>
+                            <span class="spec-cat">Data &amp; Storage</span>
                             <span class="spec-val">MySQL · SQLite · Relational Design</span>
                         </div>
                         <div class="spec-cell">
@@ -462,7 +472,7 @@
                         </div>
                         <div class="spec-cell">
                             <span class="spec-num">/04</span>
-                            <span class="spec-cat">Infrastructure & Ops</span>
+                            <span class="spec-cat">Infrastructure &amp; Ops</span>
                             <span class="spec-val">Linux CLI · Docker · Raspberry Pi · Git · DNS</span>
                         </div>
                     </div>
@@ -510,12 +520,12 @@
                             <div>
                                 <h3 class="entry-title">Hardware Filtration</h3>
                                 <p class="entry-stack mono">Raspberry Pi / Linux / DNS / Networking</p>
-                                <p class="entry-desc">Hardware-level network traffic management deployed on a Raspberry Pi — a self-hosted DNS sinkhole protecting an entire network.</p>
+                                <p class="entry-desc">Hardware-level network traffic management deployed on a Raspberry Pi  a self-hosted DNS sinkhole protecting an entire network.</p>
                                 <ul class="entry-points">
                                     <li>Raspberry Pi deployed as a network-wide DNS sinkhole</li>
                                     <li>Custom DNS routing tables configured entirely via the Linux CLI</li>
                                     <li>Intercepts and blocks malicious telemetry for every device on the network</li>
-                                    <li>Fully self-hosted — zero third-party dependencies</li>
+                                    <li>Fully self-hosted  zero third-party dependencies</li>
                                 </ul>
                                 <!-- OPTIONAL: uncomment, replace URL with your real repo
                                 <a href="https://github.com/YOUR-USERNAME/hardware-filtration" class="entry-repo" target="_blank" rel="noopener">Repository ↗</a>
@@ -575,7 +585,7 @@
                     </aside>
                     <div>
                         <div class="cv-row reveal">
-                            <div class="cv-side mono">B.E. — IT<br>Completed</div>
+                            <div class="cv-side mono">B.E.  IT<br>Completed</div>
                             <div>
                                 <h3 class="cv-title">Bachelor of Engineering, IT</h3>
                                 <p class="cv-org mono accent">Goa College of Engineering, Ponda</p>
@@ -595,16 +605,17 @@
         <div class="wrap">
             <p class="footer-kicker mono reveal">Have a role in mind?</p>
             <a class="footer-giant reveal" href="mailto:madkaikarsitesh@gmail.com" style="--d:0.1s">Let's talk <span class="arrow">↗</span></a>
-            <p class="footer-mail reveal" style="--d:0.15s">or write directly — <a href="mailto:madkaikarsitesh@gmail.com">madkaikarsitesh@gmail.com</a></p>
+            <p class="footer-mail reveal" style="--d:0.15s">or write directly  <a href="mailto:madkaikarsitesh@gmail.com">madkaikarsitesh@gmail.com</a></p>
             <div class="footer-grid mono">
                 <span><a href="https://www.linkedin.com/in/sitesh-madkaikar/" target="_blank" rel="noopener">LinkedIn ↗</a></span>
                 <!-- OPTIONAL: uncomment and set your GitHub profile URL
                 <span><a href="https://github.com/YOUR-USERNAME" target="_blank" rel="noopener">GitHub ↗</a></span>
                 -->
-                <span>Goa — <span id="clock-2">IST</span></span>
+                <span>15°29′56″N 73°49′40″E  Panjim, Goa  <span id="clock-2">IST</span></span>
                 <span>© <span id="year-2">2026</span> Sitesh Madkaikar</span>
                 <span><a href="#top">Back to top ↑</a></span>
             </div>
+            <div class="footer-joke mono">definitely not vibe coded <span aria-hidden="true">💀</span>  handcrafted html, css &amp; 3am php energy only</div>
         </div>
     </footer>
 
@@ -699,9 +710,9 @@
             document.querySelectorAll('section.block[id]').forEach(s => spy.observe(s));
         }
 
-        // --- Live IST clock ---
+        // --- Live IST clock (12-hour) ---
         function tick() {
-            const t = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Kolkata' });
+            const t = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' });
             const c1 = document.getElementById('clock');
             const c2 = document.getElementById('clock-2');
             if (c1) c1.textContent = t + ' IST';

@@ -3,430 +3,717 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sitesh Madkaikar | Software Engineer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Sitesh Madkaikar — Software Engineer</title>
+    <meta name="description" content="Sitesh Madkaikar is a software engineer from Goa, India specializing in Laravel/PHP backends, relational databases, and Linux-based infrastructure.">
+    <meta name="theme-color" content="#f4f1ea">
+
+    <!-- Set theme before first paint (prevents flash of wrong theme) -->
+    <script>
+    (function () {
+        var mode = 'auto';
+        try { mode = localStorage.getItem('sm-theme') || 'auto'; } catch (e) {}
+        document.documentElement.setAttribute('data-theme', mode);
+    })();
+    </script>
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23ff4b1f'/%3E%3Ctext x='32' y='45' font-family='Arial, sans-serif' font-size='36' font-weight='bold' fill='%23121210' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
+
+    <!-- Link previews. After deploying, uncomment and set real URLs:
+    <meta property="og:url" content="https://YOUR-USERNAME.github.io/REPO-NAME/">
+    <meta property="og:image" content="https://YOUR-USERNAME.github.io/REPO-NAME/assets/profile.jpg">
+    -->
+    <meta property="og:title" content="Sitesh Madkaikar — Software Engineer">
+    <meta property="og:description" content="Full-stack Laravel/PHP engineer building reliable backends, clean databases, and Linux-based infrastructure. Goa, India.">
+    <meta property="og:type" content="website">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Flags JS availability (used by reveal animations) -->
+    <script>document.documentElement.classList.add('js');</script>
+
     <style>
         :root {
-            /* Apple Dark Mode Palette */
-            --bg-primary: #000000;
-            --bg-secondary: #0a0a0c;
-            --bg-card: #161618;
-            --bg-card-hover: #1f1f22;
-            --text-primary: #f5f5f7;
-            --text-secondary: #86868b;
-            --border-color: #333336;
-            --accent-blue: #2997ff;
-            --radius-md: 16px;
-            --radius-lg: 24px;
+            --paper: #f4f1ea;
+            --ink: #121210;
+            --muted: #75705f;
+            --line: #d8d3c4;
+            --body: #3d382f;
+            --header-bg: rgba(244,241,234,0.88);
+            --accent: #ff4b1f;
+            --accent-ink: #121210; /* constant: text/icons sitting on the accent color */
+            --serif: 'Fraunces', Georgia, serif;
+            --sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+            --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, monospace;
+        }
+
+        /* --- DARK THEME (manual) --- */
+        [data-theme="dark"] {
+            --paper: #151310;
+            --ink: #f2eee3;
+            --muted: #9a9382;
+            --line: #3a362c;
+            --body: #cfc9ba;
+            --header-bg: rgba(21,19,16,0.88);
+        }
+
+        /* --- DARK THEME (auto = follow OS) --- */
+        @media (prefers-color-scheme: dark) {
+            [data-theme="auto"] {
+                --paper: #151310;
+                --ink: #f2eee3;
+                --muted: #9a9382;
+                --line: #3a362c;
+                --body: #cfc9ba;
+                --header-bg: rgba(21,19,16,0.88);
+            }
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html { scroll-behavior: smooth; background-color: var(--bg-primary); }
+        html { scroll-behavior: smooth; background: var(--paper); }
 
         body {
-            color: var(--text-primary);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            font-size: 16px;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
-            background-color: var(--bg-primary);
-            line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        /* --- 4-SECOND PROFESSIONAL VECTOR PRELOADER --- */
-        body.loading { overflow: hidden; }
-        
-        #apple-loader {
-            position: fixed; inset: 0; background: var(--bg-primary);
-            z-index: 99999; display: flex; align-items: center; justify-content: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+        ::selection { background: var(--accent); color: var(--accent-ink); }
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+        section[id] { scroll-margin-top: 72px; }
+        a { color: inherit; }
+
+        .wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+
+        .mono { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+        .muted { color: var(--muted); }
+        .accent { color: var(--accent); }
+
+        /* --- FILM GRAIN (subtle, decorative) --- */
+        .grain {
+            position: fixed; inset: 0; z-index: 2000; pointer-events: none; opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
-        .vector-container { position: relative; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; }
-        .vector-shape { position: absolute; mix-blend-mode: screen; will-change: transform; border-radius: 50%; filter: blur(8px); }
-        .shape-1 { width: 80px; height: 80px; background: #2997ff; animation: dance1 4s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
-        .shape-2 { width: 90px; height: 90px; background: #ff2968; animation: dance2 4s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
-        .shape-3 { width: 70px; height: 70px; background: #cc73ff; animation: dance3 4s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+        /* --- SCROLL REVEAL (only when JS works; delay zeroed after reveal) --- */
+        html.js .reveal {
+            opacity: 0; transform: translateY(26px);
+            transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+            transition-delay: var(--d, 0s);
+        }
+        html.js .reveal.visible { opacity: 1; transform: none; }
 
-        @keyframes dance1 { 0% { transform: translate(-30px, -20px) scale(1); } 50% { transform: translate(30px, 20px) scale(1.2); } 100% { transform: translate(-30px, -20px) scale(1); } }
-        @keyframes dance2 { 0% { transform: translate(30px, -20px) scale(1.2); } 50% { transform: translate(-30px, 20px) scale(1); } 100% { transform: translate(30px, -20px) scale(1.2); } }
-        @keyframes dance3 { 0% { transform: translate(0px, 30px) scale(1); } 50% { transform: translate(0px, -30px) scale(1.3); } 100% { transform: translate(0px, 30px) scale(1); } }
+        /* --- HEADER --- */
+        header {
+            position: sticky; top: 0; z-index: 500;
+            background: var(--header-bg);
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--line);
+            transition: background 0.3s ease;
+        }
+        @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+            header { background: var(--paper); }
+        }
+        .masthead { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; }
+        .masthead-right { display: flex; align-items: center; gap: 20px; }
+        .wordmark { font-family: var(--sans); font-weight: 700; font-size: 17px; letter-spacing: -0.01em; text-decoration: none; }
+        .wordmark span { color: var(--accent); }
 
-        /* --- NAVIGATION --- */
-        nav {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 500; padding: 14px 40px;
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border-bottom: 1px solid rgba(255,255,255,0.08); transition: all 0.3s ease;
+        .index { display: flex; gap: 26px; list-style: none; align-items: center; }
+        .index a {
+            font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+            color: var(--muted); text-decoration: none; transition: color 0.15s ease;
+        }
+        .index a sup { color: var(--accent); font-size: 9px; margin-right: 2px; }
+        .index a:hover, .index a.active { color: var(--ink); }
+        .index a.active { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+
+        .theme-btn {
+            font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+            background: transparent; color: var(--ink); border: 1px solid var(--line);
+            padding: 9px 14px; border-radius: 999px; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+            transition: border-color 0.15s ease, color 0.15s ease;
+        }
+        .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-family: var(--sans); font-weight: 600; font-size: 14px;
+            padding: 12px 22px; border-radius: 999px; text-decoration: none;
+            background: var(--ink); color: var(--paper); border: 1px solid var(--ink);
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+        }
+        .btn:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); transform: translateY(-2px); }
+        .btn.sm { padding: 9px 18px; font-size: 13px; }
+        .btn.ghost { background: transparent; color: var(--ink); }
+        .btn.ghost:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+        .menu-toggle {
+            display: none; background: var(--ink); color: var(--paper); border: none; cursor: pointer;
+            font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+            padding: 10px 16px; border-radius: 999px;
+        }
+        .mobile-index { display: none; border-top: 1px solid var(--line); padding: 8px 0 20px; }
+        header.nav-open .mobile-index { display: block; }
+        .mobile-index a {
+            display: flex; justify-content: space-between; padding: 14px 0; text-decoration: none;
+            font-family: var(--serif); font-size: 24px; border-bottom: 1px solid var(--line);
+        }
+        .mobile-index a span { font-family: var(--mono); font-size: 12px; color: var(--accent); padding-top: 8px; }
+
+        /* --- HERO --- */
+        .hero { min-height: 92vh; min-height: 92svh; display: flex; flex-direction: column; justify-content: center; padding: 64px 0 56px; position: relative; }
+        .hero-meta { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--muted); margin-bottom: 48px; }
+        .hero-name {
+            font-family: var(--sans); font-weight: 700;
+            font-size: clamp(56px, 11vw, 150px);
+            line-height: 0.92; letter-spacing: -0.04em; text-transform: uppercase;
+        }
+        .hero-name .serif {
+            display: block; font-family: var(--serif); font-style: italic; font-weight: 400;
+            text-transform: none; letter-spacing: -0.02em; color: var(--accent);
+        }
+        .hero-role { display: flex; align-items: center; gap: 18px; margin: 36px 0; flex-wrap: wrap; }
+        .hero-role .line { width: 56px; border-top: 2px solid var(--ink); }
+        .hero-role p { font-size: clamp(17px, 2vw, 21px); font-weight: 500; max-width: 520px; }
+        .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+
+        /* --- MARQUEE --- */
+        .marquee {
+            border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);
+            background: var(--ink); color: var(--paper);
+            overflow: hidden; padding: 14px 0; white-space: nowrap;
+        }
+        .marquee-track { display: inline-flex; animation: scroll 26s linear infinite; will-change: transform; }
+        .marquee:hover .marquee-track { animation-play-state: paused; }
+        .marquee-track span {
+            font-family: var(--sans); font-weight: 600; font-size: 15px;
+            letter-spacing: 0.12em; text-transform: uppercase; padding-right: 16px;
+        }
+        .marquee-track .dot { color: var(--accent); font-style: normal; }
+        @keyframes scroll { to { transform: translateX(-50%); } }
+
+        /* --- SECTIONS --- */
+        section.block { padding: 96px 0; border-bottom: 1px solid var(--line); }
+        .block-head { display: flex; align-items: baseline; gap: 20px; margin-bottom: 56px; }
+        .block-num { font-family: var(--mono); font-size: 13px; color: var(--accent); }
+        .block-title { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(30px, 4.4vw, 46px); letter-spacing: -0.01em; }
+        .block-head .fill { flex: 1; border-top: 1px solid var(--line); transform: translateY(-8px); }
+
+        .block-grid { display: grid; grid-template-columns: 200px 1fr; gap: 56px; }
+        .block-aside { color: var(--muted); }
+        .block-aside .sticky { position: sticky; top: 108px; }
+        .block-aside p { margin-bottom: 16px; }
+
+        /* About */
+        .about-lede { font-family: var(--serif); font-size: clamp(23px, 3vw, 32px); line-height: 1.4; margin-bottom: 28px; }
+        .about-lede strong { font-weight: 600; }
+        .about-lede .hl { background: linear-gradient(transparent 62%, rgba(255,75,31,0.3) 62%); }
+        .about-body { max-width: 58ch; color: var(--body); }
+        .about-body p { margin-bottom: 16px; }
+
+        .figure { position: relative; margin-top: 44px; max-width: 300px; }
+        .figure img {
+            display: block; width: 100%; aspect-ratio: 1; object-fit: cover; object-position: center 20%;
+            border: 2px solid var(--ink); border-radius: 16px;
+            filter: grayscale(1) contrast(1.05); transition: filter 0.4s ease, transform 0.4s ease;
+        }
+        .figure:hover img { filter: none; transform: rotate(-1.5deg); }
+        .figure figcaption { margin-top: 12px; color: var(--muted); }
+        .sticker { position: absolute; top: -34px; right: -30px; width: 96px; height: 96px; animation: spin 14s linear infinite; }
+        .sticker svg { width: 100%; height: 100%; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Skills — bordered grid, hover invert */
+        .spec-grid { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink); border-left: 1px solid var(--ink); }
+        .spec-cell {
+            border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink);
+            padding: 28px; transition: background 0.2s ease, color 0.2s ease;
+        }
+        .spec-cell:hover { background: var(--ink); color: var(--paper); }
+        .spec-cell:hover .spec-num { color: var(--accent); }
+        .spec-cell:hover .spec-cat { color: var(--muted); }
+        .spec-num { font-family: var(--mono); font-size: 12px; color: var(--accent); display: block; margin-bottom: 20px; transition: color 0.2s ease; }
+        .spec-cat { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 10px; transition: color 0.2s ease; }
+        .spec-val { font-family: var(--sans); font-weight: 600; font-size: clamp(18px, 2vw, 22px); line-height: 1.45; }
+
+        /* Projects */
+        .entry { display: grid; grid-template-columns: 110px 1fr; gap: 32px; padding: 44px 0; border-bottom: 1px solid var(--line); }
+        .entry:last-child { border-bottom: none; }
+        .entry-num {
+            font-family: var(--sans); font-weight: 700; font-size: 64px; line-height: 1;
+            color: transparent; -webkit-text-stroke: 1.5px var(--ink);
+            transition: color 0.25s ease, -webkit-text-stroke-color 0.25s ease;
+        }
+        .entry:hover .entry-num { color: var(--accent); -webkit-text-stroke-color: var(--accent); }
+        .entry-title { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 3.6vw, 40px); letter-spacing: -0.01em; margin-bottom: 6px; }
+        .entry-title a { text-decoration: none; transition: color 0.15s ease; }
+        .entry-title a:hover { color: var(--accent); }
+        .entry-stack { color: var(--muted); margin-bottom: 20px; }
+        .entry-desc { max-width: 58ch; color: var(--body); margin-bottom: 22px; }
+        .entry-points { list-style: none; max-width: 66ch; }
+        .entry-points li { padding: 9px 0 9px 26px; position: relative; border-top: 1px solid var(--line); font-size: 15px; }
+        .entry-points li::before { content: "→"; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+        .entry-repo { display: inline-block; margin-top: 20px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 2px; transition: color 0.15s ease; }
+        .entry-repo:hover { color: var(--accent); }
+
+        /* CV rows */
+        .cv-row { display: grid; grid-template-columns: 200px 1fr; gap: 32px; padding: 32px 0; border-bottom: 1px solid var(--line); }
+        .cv-row:last-child { border-bottom: none; }
+        .cv-side { color: var(--muted); }
+        .cv-title { font-family: var(--serif); font-size: clamp(22px, 2.6vw, 28px); font-weight: 400; margin-bottom: 4px; }
+        .cv-org { margin-bottom: 16px; }
+        .cv-desc { max-width: 60ch; color: var(--body); font-size: 15px; margin-bottom: 16px; }
+        .cv-tags { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+        /* --- FOOTER --- */
+        footer { padding: 110px 0 40px; }
+        .footer-kicker { color: var(--muted); margin-bottom: 24px; }
+        .footer-giant {
+            display: inline-block; font-family: var(--sans); font-weight: 700;
+            font-size: clamp(48px, 10vw, 130px); line-height: 0.95; letter-spacing: -0.04em;
+            text-transform: uppercase; text-decoration: none; margin-bottom: 20px;
+            transition: color 0.2s ease;
+        }
+        .footer-giant:hover { color: var(--accent); }
+        .footer-giant .arrow { display: inline-block; transition: transform 0.25s ease; }
+        .footer-giant:hover .arrow { transform: translate(10px, -10px); }
+        .footer-mail { font-family: var(--serif); font-style: italic; font-size: clamp(18px, 2.4vw, 24px); color: var(--muted); }
+        .footer-mail a { text-decoration: none; border-bottom: 1px solid var(--line); }
+        .footer-mail a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+        .footer-grid { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; border-top: 1px solid var(--line); margin-top: 72px; padding-top: 20px; color: var(--muted); }
+        .footer-grid a { text-decoration: none; }
+        .footer-grid a:hover { color: var(--accent); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .index, .header-cta { display: none; }
+            .menu-toggle { display: inline-block; }
+            .masthead-right { gap: 10px; }
+            .block-grid { grid-template-columns: 1fr; gap: 32px; }
+            .block-aside .sticky { position: static; }
+            .entry { grid-template-columns: 1fr; gap: 16px; }
+            .entry-num { font-size: 44px; }
+            .cv-row { grid-template-columns: 1fr; gap: 8px; }
+        }
+        @media (max-width: 640px) {
+            .wrap { padding: 0 20px; }
+            .spec-grid { grid-template-columns: 1fr; }
+            section.block { padding: 72px 0; }
+            .sticker { width: 76px; height: 76px; top: -26px; right: -8px; }
         }
 
-        .nav-logo { font-size: 18px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.5px; text-decoration: none; }
-        .nav-links { display: flex; gap: 32px; list-style: none; }
-        .nav-links a { color: var(--text-primary); text-decoration: none; font-size: 13px; font-weight: 400; opacity: 0.8; transition: opacity 0.2s ease; }
-        .nav-links a:hover { opacity: 1; }
-
-        .btn { padding: 12px 24px; border-radius: 999px; font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px; }
-        .btn-primary { background: var(--text-primary); color: var(--bg-primary); }
-        .btn-primary:hover { background: #e8e8ed; transform: scale(1.02); }
-        .btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border-color); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.05); transform: scale(1.02); }
-
-        /* --- SECTIONS BASE & TYPOGRAPHY (Normal Sizes, High Spacing) --- */
-        .section-wrapper { padding: 120px 40px; max-width: 1000px; margin: 0 auto; position: relative; }
-        
-        .section-headline { font-size: 40px; font-weight: 600; letter-spacing: -0.03em; margin-bottom: 16px; color: var(--text-primary); }
-        .section-subheadline { font-size: 18px; color: var(--text-secondary); max-width: 700px; margin-bottom: 60px; line-height: 1.6; }
-
-        /* --- HERO SECTION --- */
-        .hero { min-height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
-        .hero .apple-title { font-size: clamp(48px, 6vw, 72px); font-weight: 700; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 20px; }
-        .hero .apple-subtitle { font-size: clamp(18px, 2.5vw, 24px); font-weight: 500; color: var(--text-secondary); max-width: 700px; margin-bottom: 40px; }
-
-        /* --- ABOUT SECTION --- */
-        .about-layout { display: flex; gap: 48px; align-items: center; }
-        .about-avatar { width: 200px; height: 200px; flex-shrink: 0; background: #ffffff; border-radius: 50%; overflow: hidden; border: 1px solid var(--border-color); }
-        .about-text p { font-size: 16px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
-        .about-text strong { color: var(--text-primary); font-weight: 500; }
-
-        /* --- SKILLS SECTION --- */
-        .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .skill-card { background: var(--bg-card); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); }
-        .skill-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--text-primary); }
-        .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-        .tech-tag { padding: 6px 14px; background: rgba(255, 255, 255, 0.05); border-radius: 99px; font-size: 12px; font-weight: 500; color: var(--text-primary); border: 1px solid var(--border-color); }
-
-        /* --- PROJECTS SECTION (Massive Grid) --- */
-        .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-        .project-card { background: var(--bg-card); border-radius: var(--radius-lg); padding: 40px; display: flex; flex-direction: column; border: 1px solid var(--border-color); transition: transform 0.3s ease, background 0.3s ease; }
-        .project-card:hover { transform: translateY(-4px); background: var(--bg-card-hover); }
-        .project-icon { font-size: 24px; margin-bottom: 24px; color: var(--text-primary); display: flex; justify-content: space-between; align-items: center; }
-        .project-icon a { color: var(--text-secondary); transition: color 0.2s; font-size: 18px; }
-        .project-icon a:hover { color: var(--text-primary); }
-        .project-title { font-size: 20px; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.01em; }
-        .project-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px; flex-grow: 1; }
-
-        /* --- EXPERIENCE & EDUCATION --- */
-        .list-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 32px 0; border-bottom: 1px solid var(--border-color); }
-        .list-row:last-child { border-bottom: none; }
-        .list-main { flex: 1; padding-right: 40px; }
-        .list-meta { flex-shrink: 0; text-align: right; }
-        .list-title { font-size: 20px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
-        .list-subtitle { font-size: 15px; color: var(--accent-blue); font-weight: 500; margin-bottom: 16px; }
-        .list-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
-        .list-badge { display: inline-block; padding: 6px 16px; background: rgba(255, 255, 255, 0.05); border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-secondary); border: 1px solid var(--border-color); }
-
-        /* --- FOOTER / CONTACT --- */
-        .footer-section { text-align: center; border-top: 1px solid var(--border-color); padding: 100px 40px 60px; background: var(--bg-secondary); }
-        .footer-headline { font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 32px; }
-        .footer-socials { display: flex; justify-content: center; gap: 32px; margin-bottom: 60px; flex-wrap: wrap; }
-        .footer-social-link { display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 500; color: var(--text-secondary); text-decoration: none; transition: color 0.2s ease; }
-        .footer-social-link:hover { color: var(--text-primary); }
-        .footer-copyright { font-size: 13px; color: var(--text-secondary); }
-
-        /* --- RESPONSIVE ADJUSTMENTS --- */
-        @media (max-width: 968px) {
-            .projects-grid { grid-template-columns: 1fr; }
-            .skills-grid { grid-template-columns: 1fr; }
-            .about-layout { flex-direction: column; text-align: center; }
-            .about-avatar { margin: 0 auto; }
-            .list-row { flex-direction: column; gap: 16px; }
-            .list-main { padding-right: 0; }
-            .list-meta { text-align: left; width: 100%; }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; transition-delay: 0ms !important; }
+            .marquee-track { animation: none; }
         }
 
-        @media (max-width: 768px) {
-            nav { padding: 16px 20px; }
-            .nav-links { display: none; }
-            .section-wrapper { padding: 80px 24px; }
-            .hero { min-height: 80vh; padding-top: 120px; }
-            .hero .apple-title { font-size: 40px; }
-            .footer-socials { flex-direction: column; gap: 24px; align-items: center; }
+        @media print {
+            header, .hero-cta, .marquee, .grain, .sticker { display: none; }
+            body { background: #fff; }
         }
     </style>
 </head>
-<body class="loading">
+<body>
 
-    <div id="apple-loader">
-        <div class="vector-container">
-            <div class="vector-shape shape-1"></div>
-            <div class="vector-shape shape-2"></div>
-            <div class="vector-shape shape-3"></div>
-        </div>
-    </div>
+    <div class="grain" aria-hidden="true"></div>
 
-    <nav>
-        <a href="#" class="nav-logo">Sitesh.</a>
-        <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Work</a></li>
-            <li><a href="#internship">Experience</a></li>
-            <li><a href="#education">Education</a></li>
-        </ul>
-        <a href="mailto:madkaikarsitesh@gmail.com" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px;">Contact</a>
-    </nav>
-
-    <section class="section-wrapper hero" id="home">
-        <h1 class="apple-title">Sitesh Madkaikar.</h1>
-        <p class="apple-subtitle">Software Engineer. Full-Stack Developer. Problem Solver.</p>
-        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-            <a href="#projects" class="btn btn-primary">Explore Projects</a>
-            <a href="mailto:madkaikarsitesh@gmail.com" class="btn btn-secondary">Get in touch</a>
-        </div>
-    </section>
-
-    <section class="section-wrapper" id="about">
-        <h2 class="section-headline">About Me.</h2>
-        <p class="section-subheadline">Engineering reliable, fast, and scalable systems.</p>
-
-        <div class="about-layout">
-<div class="about-avatar">
-    <img src="assets/profile.jpg" alt="Sitesh Madkaikar" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transform: scale(0.80);">
-</div>
-            <div class="about-text">
-                <p>I am a <strong>B.E. Information Technology</strong> graduate. I specialize in building monolithic backends structured around raw execution speed, clean relational databases, and modern UI implementation.</p>
-                <p>My core expertise lies within the <strong>Laravel/PHP</strong> ecosystem, alongside low-level hardware setups like <strong>Raspberry Pi</strong> network administration. I write code that doesn't just work—it scales cleanly.</p>
+    <header>
+        <div class="wrap masthead">
+            <a href="#top" class="wordmark">SM<span>*</span></a>
+            <div class="masthead-right">
+                <ul class="index">
+                    <li><a href="#about"><sup>01</sup>About</a></li>
+                    <li><a href="#skills"><sup>02</sup>Stack</a></li>
+                    <li><a href="#work"><sup>03</sup>Work</a></li>
+                    <li><a href="#experience"><sup>04</sup>Experience</a></li>
+                    <li><a href="#education"><sup>05</sup>Education</a></li>
+                </ul>
+                <button class="theme-btn" id="theme-btn" aria-label="Theme: auto. Click to switch.">◐ Auto</button>
+                <a href="mailto:madkaikarsitesh@gmail.com" class="btn sm header-cta">Let's talk ↗</a>
+                <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="mobile-index">Menu</button>
             </div>
         </div>
-    </section>
+        <div class="wrap mobile-index" id="mobile-index">
+            <a href="#about">About <span>01</span></a>
+            <a href="#skills">Stack <span>02</span></a>
+            <a href="#work">Work <span>03</span></a>
+            <a href="#experience">Experience <span>04</span></a>
+            <a href="#education">Education <span>05</span></a>
+            <a href="mailto:madkaikarsitesh@gmail.com">Email <span>↗</span></a>
+        </div>
+    </header>
 
-    <section class="section-wrapper" id="skills">
-        <h2 class="section-headline">Tech Stack.</h2>
-        <p class="section-subheadline">The core tools, languages, and frameworks I use to build production-ready applications.</p>
+    <main id="top">
 
-        <div class="skills-grid">
-            <div class="skill-card">
-                <h3>Backend & Core</h3>
-                <div class="tech-tags">
-                    <span class="tech-tag">PHP 8.x</span>
-                    <span class="tech-tag">Laravel</span>
-                    <span class="tech-tag">C/C++</span>
+        <!-- HERO -->
+        <section class="hero" id="hero">
+            <div class="wrap">
+                <div class="hero-meta mono">
+                    <span>Portfolio © <span id="year">2026</span></span>
+                    <span>Goa, India — <span id="clock">IST</span></span>
+                    <span class="accent">▪ Available for work</span>
+                </div>
+
+                <h1 class="hero-name reveal">
+                    Sitesh
+                    <span class="serif">Madkaikar</span>
+                </h1>
+
+                <div class="hero-role reveal" style="--d:0.1s">
+                    <span class="line"></span>
+                    <p>Software Engineer — building reliable backends, clean databases & self-hosted infrastructure.</p>
+                </div>
+
+                <div class="hero-cta reveal" style="--d:0.2s">
+                    <a href="#work" class="btn">See my work ↓</a>
+                    <a href="mailto:madkaikarsitesh@gmail.com" class="btn ghost">Get in touch</a>
                 </div>
             </div>
-            <div class="skill-card">
-                <h3>Data & Storage</h3>
-                <div class="tech-tags">
-                    <span class="tech-tag">MySQL</span>
-                    <span class="tech-tag">SQLite</span>
-                    <span class="tech-tag">Relational Design</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>Frontend</h3>
-                <div class="tech-tags">
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">HTML5 / CSS3</span>
-                    <span class="tech-tag">Bootstrap / Blade</span>
-                </div>
-            </div>
-            <div class="skill-card" style="grid-column: 1 / -1;">
-                <h3>Infrastructure & Operations</h3>
-                <div class="tech-tags">
-                    <span class="tech-tag">Linux CLI</span>
-                    <span class="tech-tag">Docker</span>
-                    <span class="tech-tag">Raspberry Pi</span>
-                    <span class="tech-tag">Git Pipeline</span>
-                    <span class="tech-tag">DNS Management</span>
-                </div>
+        </section>
+
+        <!-- MARQUEE -->
+        <div class="marquee" aria-hidden="true">
+            <div class="marquee-track">
+                <span>Laravel <i class="dot">✦</i> PHP 8.x <i class="dot">✦</i> MySQL <i class="dot">✦</i> SQLite <i class="dot">✦</i> JavaScript <i class="dot">✦</i> Linux CLI <i class="dot">✦</i> Docker <i class="dot">✦</i> Raspberry Pi <i class="dot">✦</i> DNS <i class="dot">✦</i> C/C++ <i class="dot">✦</i> Git <i class="dot">✦</i>&nbsp;</span>
+                <span>Laravel <i class="dot">✦</i> PHP 8.x <i class="dot">✦</i> MySQL <i class="dot">✦</i> SQLite <i class="dot">✦</i> JavaScript <i class="dot">✦</i> Linux CLI <i class="dot">✦</i> Docker <i class="dot">✦</i> Raspberry Pi <i class="dot">✦</i> DNS <i class="dot">✦</i> C/C++ <i class="dot">✦</i> Git <i class="dot">✦</i>&nbsp;</span>
             </div>
         </div>
-    </section>
 
-    <section class="section-wrapper" id="projects">
-        <h2 class="section-headline">Featured Work.</h2>
-        <p class="section-subheadline">A comprehensive look at applications, APIs, and infrastructure I have developed.</p>
-
-        <div class="projects-grid">
-            
-            <div class="project-card">
-                <div class="project-icon">
-                    <i class="fas fa-paw"></i> <a href="#"><i class="fab fa-github"></i></a>
+        <!-- ABOUT -->
+        <section class="block" id="about">
+            <div class="wrap">
+                <div class="block-head">
+                    <span class="block-num">01</span>
+                    <h2 class="block-title reveal">About</h2>
+                    <span class="fill"></span>
                 </div>
-                <h3 class="project-title">DigiPet Core Engine</h3>
-                <p class="project-desc">A hyper-local veterinary platform connecting pet owners with medical care. Engineered using a dedicated custom Python AI module that communicates natively with a robust Laravel and SQLite backend. Secured via full Role-Based Access Control.</p>
-                <div class="tech-tags"><span class="tech-tag">Python AI</span><span class="tech-tag">Laravel</span><span class="tech-tag">SQLite</span></div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-icon">
-                    <i class="fas fa-network-wired"></i> <a href="#"><i class="fab fa-github"></i></a>
+                <div class="block-grid">
+                    <aside class="block-aside mono">
+                        <div class="sticky">
+                            <p>Profile</p>
+                            <p>B.E. Information Technology — Goa College of Engineering</p>
+                        </div>
+                    </aside>
+                    <div>
+                        <p class="about-lede reveal">I engineer <span class="hl">monolithic backends</span> built for raw execution speed, clean relational databases, and <span class="hl">modern UI</span> implementation.</p>
+                        <div class="about-body reveal" style="--d:0.1s">
+                            <p>My core expertise lies within the Laravel/PHP ecosystem, alongside low-level hardware setups like Raspberry Pi network administration. I write code that doesn't just work — it scales cleanly.</p>
+                        </div>
+                        <figure class="figure reveal" style="--d:0.15s">
+                            <div class="sticker" aria-hidden="true">
+                                <svg viewBox="0 0 100 100">
+                                    <defs><path id="circlePath" d="M 50,50 m -36,0 a 36,36 0 1,1 72,0 a 36,36 0 1,1 -72,0"/></defs>
+                                    <circle cx="50" cy="50" r="48" style="fill: var(--accent);"/>
+                                    <text style="font-family: ui-monospace, monospace; font-size: 11.5px; font-weight: 700; letter-spacing: 2.5px; fill: var(--accent-ink);">
+                                        <textPath href="#circlePath">OPEN TO WORK ✦ OPEN TO WORK ✦</textPath>
+                                    </text>
+                                    <text x="50" y="56" text-anchor="middle" style="font-size: 20px; fill: var(--accent-ink);">↗</text>
+                                </svg>
+                            </div>
+                            <img src="assets/profile.jpg" alt="Portrait of Sitesh Madkaikar" loading="lazy" decoding="async">
+                            <figcaption class="mono">Fig. 01 — S. Madkaikar, Goa</figcaption>
+                        </figure>
+                    </div>
                 </div>
-                <h3 class="project-title">Hardware Filtration</h3>
-                <p class="project-desc">Hardware-level network traffic management deployed natively on a Raspberry Pi. Configured custom DNS routing tables via the Linux CLI to act as a localized sinkhole, intercepting and blocking malicious telemetry network-wide.</p>
-                <div class="tech-tags"><span class="tech-tag">Raspberry Pi</span><span class="tech-tag">Linux</span><span class="tech-tag">DNS</span></div>
             </div>
+        </section>
 
-            <div class="project-card">
-                <div class="project-icon">
-                    <i class="fas fa-shopping-cart"></i> <a href="#"><i class="fab fa-github"></i></a>
+        <!-- SKILLS -->
+        <section class="block" id="skills">
+            <div class="wrap">
+                <div class="block-head">
+                    <span class="block-num">02</span>
+                    <h2 class="block-title reveal">Tech Stack</h2>
+                    <span class="fill"></span>
                 </div>
-                <h3 class="project-title">Laravel E-Commerce API</h3>
-                <p class="project-desc">A headless RESTful API for a digital storefront. Built entirely with Laravel and MySQL, featuring cart session management, secure payment gateway mockups, and highly optimized relational schema indexing.</p>
-                <div class="tech-tags"><span class="tech-tag">Laravel</span><span class="tech-tag">MySQL</span><span class="tech-tag">REST API</span></div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-icon">
-                    <i class="fas fa-server"></i> <a href="#"><i class="fab fa-github"></i></a>
+                <div class="block-grid">
+                    <aside class="block-aside mono">
+                        <div class="sticky">
+                            <p>Specification</p>
+                            <p>Core tools, languages and frameworks used in production.</p>
+                        </div>
+                    </aside>
+                    <div class="spec-grid reveal">
+                        <div class="spec-cell">
+                            <span class="spec-num">/01</span>
+                            <span class="spec-cat">Backend & Core</span>
+                            <span class="spec-val">PHP 8.x · Laravel · C/C++</span>
+                        </div>
+                        <div class="spec-cell">
+                            <span class="spec-num">/02</span>
+                            <span class="spec-cat">Data & Storage</span>
+                            <span class="spec-val">MySQL · SQLite · Relational Design</span>
+                        </div>
+                        <div class="spec-cell">
+                            <span class="spec-num">/03</span>
+                            <span class="spec-cat">Frontend</span>
+                            <span class="spec-val">JavaScript · HTML5 / CSS3 · Bootstrap · Blade</span>
+                        </div>
+                        <div class="spec-cell">
+                            <span class="spec-num">/04</span>
+                            <span class="spec-cat">Infrastructure & Ops</span>
+                            <span class="spec-val">Linux CLI · Docker · Raspberry Pi · Git · DNS</span>
+                        </div>
+                    </div>
                 </div>
-                <h3 class="project-title">Linux Server Monitor</h3>
-                <p class="project-desc">A lightweight system monitoring dashboard that reads live Linux server stats. Utilized Bash scripting to pull CPU/RAM usage and a PHP interface to map the analytics cleanly onto a web dashboard.</p>
-                <div class="tech-tags"><span class="tech-tag">Linux CLI</span><span class="tech-tag">Bash</span><span class="tech-tag">PHP</span></div>
             </div>
+        </section>
 
-            <div class="project-card">
-                <div class="project-icon">
-                    <i class="fas fa-comments"></i> <a href="#"><i class="fab fa-github"></i></a>
+        <!-- WORK -->
+        <section class="block" id="work">
+            <div class="wrap">
+                <div class="block-head">
+                    <span class="block-num">03</span>
+                    <h2 class="block-title reveal">Selected Work</h2>
+                    <span class="fill"></span>
                 </div>
-                <h3 class="project-title">Live Chat Application</h3>
-                <p class="project-desc">A real-time messaging application utilizing JavaScript websockets and a PHP backend logic handler. Implemented dynamic typing indicators and secure user-to-user private message routing.</p>
-                <div class="tech-tags"><span class="tech-tag">JavaScript</span><span class="tech-tag">PHP</span><span class="tech-tag">MySQL</span></div>
-            </div>
+                <div class="block-grid">
+                    <aside class="block-aside mono">
+                        <div class="sticky">
+                            <p>Index of systems</p>
+                            <p>Two projects engineered end-to-end.</p>
+                        </div>
+                    </aside>
+                    <div>
 
-            <div class="project-card">
-                <div class="project-icon">
-                    <i class="fas fa-home"></i> <a href="#"><i class="fab fa-github"></i></a>
+                        <article class="entry reveal">
+                            <div class="entry-num">01</div>
+                            <div>
+                                <h3 class="entry-title">DigiPet Core Engine</h3>
+                                <p class="entry-stack mono">Python AI / Laravel / SQLite / RBAC</p>
+                                <p class="entry-desc">A hyper-local veterinary platform connecting pet owners with nearby medical care, engineered as a fast, self-contained monolith.</p>
+                                <ul class="entry-points">
+                                    <li>Custom Python AI module communicating natively with a Laravel + SQLite backend</li>
+                                    <li>Full role-based access control across owner, clinic, and admin roles</li>
+                                    <li>Hyper-local discovery engine matching pet owners to nearby veterinary care</li>
+                                    <li>Clean, indexed relational schema designed for fast local queries</li>
+                                </ul>
+                                <!-- OPTIONAL: uncomment, replace URL with your real repo
+                                <a href="https://github.com/YOUR-USERNAME/digipet" class="entry-repo" target="_blank" rel="noopener">Repository ↗</a>
+                                -->
+                            </div>
+                        </article>
+
+                        <article class="entry reveal">
+                            <div class="entry-num">02</div>
+                            <div>
+                                <h3 class="entry-title">Hardware Filtration</h3>
+                                <p class="entry-stack mono">Raspberry Pi / Linux / DNS / Networking</p>
+                                <p class="entry-desc">Hardware-level network traffic management deployed on a Raspberry Pi — a self-hosted DNS sinkhole protecting an entire network.</p>
+                                <ul class="entry-points">
+                                    <li>Raspberry Pi deployed as a network-wide DNS sinkhole</li>
+                                    <li>Custom DNS routing tables configured entirely via the Linux CLI</li>
+                                    <li>Intercepts and blocks malicious telemetry for every device on the network</li>
+                                    <li>Fully self-hosted — zero third-party dependencies</li>
+                                </ul>
+                                <!-- OPTIONAL: uncomment, replace URL with your real repo
+                                <a href="https://github.com/YOUR-USERNAME/hardware-filtration" class="entry-repo" target="_blank" rel="noopener">Repository ↗</a>
+                                -->
+                            </div>
+                        </article>
+
+                    </div>
                 </div>
-                <h3 class="project-title">Pi Home Automation Core</h3>
-                <p class="project-desc">A localized smart-home data logger. Written in C++ to run efficiently on a Raspberry Pi, tracking sensor states and logging historical metrics into a lightweight SQLite database for analysis.</p>
-                <div class="tech-tags"><span class="tech-tag">C++</span><span class="tech-tag">Raspberry Pi</span><span class="tech-tag">SQLite</span></div>
             </div>
+        </section>
 
-            <div class="project-card">
-                <div class="project-icon">
-                    <i class="fas fa-pen-nib"></i> <a href="#"><i class="fab fa-github"></i></a>
+        <!-- EXPERIENCE -->
+        <section class="block" id="experience">
+            <div class="wrap">
+                <div class="block-head">
+                    <span class="block-num">04</span>
+                    <h2 class="block-title reveal">Experience</h2>
+                    <span class="fill"></span>
                 </div>
-                <h3 class="project-title">Custom PHP CMS</h3>
-                <p class="project-desc">A monolithic Content Management System built from scratch without standard frameworks. Focused on clean procedural PHP, raw SQL injection prevention, and a responsive Bootstrap admin panel.</p>
-                <div class="tech-tags"><span class="tech-tag">PHP</span><span class="tech-tag">SQL</span><span class="tech-tag">Bootstrap</span></div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-icon">
-                    <i class="fas fa-tasks"></i> <a href="#"><i class="fab fa-github"></i></a>
+                <div class="block-grid">
+                    <aside class="block-aside mono">
+                        <div class="sticky">
+                            <p>Record</p>
+                            <p>Verified industrial deployment and professional development.</p>
+                        </div>
+                    </aside>
+                    <div>
+                        <div class="cv-row reveal">
+                            <div class="cv-side mono">Junior Developer<br>Internship</div>
+                            <div>
+                                <h3 class="cv-title">Junior Developer Intern</h3>
+                                <p class="cv-org mono accent">Cruising Club India</p>
+                                <p class="cv-desc">Operated within a production environment to build full-stack features. Engineered core Laravel business logic, managed database schemas, and refactored secure RBAC authentication modules under professional code review. Collaborated directly with senior engineers to ensure high-performance deployments.</p>
+                                <p class="cv-tags">Laravel · MySQL · RBAC · Git · Code Review</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h3 class="project-title">Kanban Task Board</h3>
-                <p class="project-desc">A project management tool allowing users to create, drag, and drop tasks across workflow columns. Built using Laravel Blade templating and JavaScript for seamless DOM manipulation.</p>
-                <div class="tech-tags"><span class="tech-tag">Laravel</span><span class="tech-tag">JavaScript</span><span class="tech-tag">Blade</span></div>
             </div>
+        </section>
 
-            <div class="project-card">
-                <div class="project-icon">
-                    <i class="fas fa-shield-alt"></i> <a href="#"><i class="fab fa-github"></i></a>
+        <!-- EDUCATION -->
+        <section class="block" id="education">
+            <div class="wrap">
+                <div class="block-head">
+                    <span class="block-num">05</span>
+                    <h2 class="block-title reveal">Education</h2>
+                    <span class="fill"></span>
                 </div>
-                <h3 class="project-title">API Rate Limiter</h3>
-                <p class="project-desc">A custom middleware solution integrated into a Laravel pipeline. Designed to track incoming IP requests, block abusive traffic bursts, and return clean 429 status codes efficiently.</p>
-                <div class="tech-tags"><span class="tech-tag">Laravel</span><span class="tech-tag">PHP</span><span class="tech-tag">Networking</span></div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-icon">
-                    <i class="fas fa-terminal"></i> <a href="#"><i class="fab fa-github"></i></a>
+                <div class="block-grid">
+                    <aside class="block-aside mono">
+                        <div class="sticky">
+                            <p>Foundation</p>
+                            <p>Academic record and core computer science metrics.</p>
+                        </div>
+                    </aside>
+                    <div>
+                        <div class="cv-row reveal">
+                            <div class="cv-side mono">B.E. — IT<br>Completed</div>
+                            <div>
+                                <h3 class="cv-title">Bachelor of Engineering, IT</h3>
+                                <p class="cv-org mono accent">Goa College of Engineering, Ponda</p>
+                                <p class="cv-desc">Comprehensive four-year curriculum focused on fundamental computer science principles. Key focuses included Data Structures, Algorithm Complexity, Relational Database Management Systems, and low-level Network Transport Protocols.</p>
+                                <p class="cv-tags">Data Structures · Algorithms · RDBMS · Networking</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h3 class="project-title">DNS Query Analyzer</h3>
-                <p class="project-desc">A terminal-based diagnostic tool written in C++ that intercepts and resolves raw DNS lookup queries. Built for deep structural understanding of network routing and packet inspection.</p>
-                <div class="tech-tags"><span class="tech-tag">C++</span><span class="tech-tag">Linux</span><span class="tech-tag">DNS</span></div>
             </div>
+        </section>
 
-            <div class="project-card">
-                <div class="project-icon">
-                    <i class="fas fa-hdd"></i> <a href="#"><i class="fab fa-github"></i></a>
-                </div>
-                <h3 class="project-title">Automated Backup Pipeline</h3>
-                <p class="project-desc">A cron-scheduled Linux Bash script that securely archives local database schemas, compresses the data natively, and transfers it to isolated backup directories autonomously.</p>
-                <div class="tech-tags"><span class="tech-tag">Bash</span><span class="tech-tag">Linux CLI</span><span class="tech-tag">Docker</span></div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+        <div class="wrap">
+            <p class="footer-kicker mono reveal">Have a role in mind?</p>
+            <a class="footer-giant reveal" href="mailto:madkaikarsitesh@gmail.com" style="--d:0.1s">Let's talk <span class="arrow">↗</span></a>
+            <p class="footer-mail reveal" style="--d:0.15s">or write directly — <a href="mailto:madkaikarsitesh@gmail.com">madkaikarsitesh@gmail.com</a></p>
+            <div class="footer-grid mono">
+                <span><a href="https://www.linkedin.com/in/sitesh-madkaikar/" target="_blank" rel="noopener">LinkedIn ↗</a></span>
+                <!-- OPTIONAL: uncomment and set your GitHub profile URL
+                <span><a href="https://github.com/YOUR-USERNAME" target="_blank" rel="noopener">GitHub ↗</a></span>
+                -->
+                <span>Goa — <span id="clock-2">IST</span></span>
+                <span>© <span id="year-2">2026</span> Sitesh Madkaikar</span>
+                <span><a href="#top">Back to top ↑</a></span>
             </div>
-
-            <div class="project-card">
-                <div class="project-icon">
-                    <i class="fas fa-code"></i> <a href="#"><i class="fab fa-github"></i></a>
-                </div>
-                <h3 class="project-title">Static Site Generator</h3>
-                <p class="project-desc">A lightweight script utilizing PHP to parse raw markdown files and convert them into highly optimized, static HTML/CSS web pages for lightning-fast delivery.</p>
-                <div class="tech-tags"><span class="tech-tag">PHP</span><span class="tech-tag">HTML/CSS</span></div>
-            </div>
-
         </div>
-    </section>
-
-    <section class="section-wrapper" id="internship">
-        <h2 class="section-headline">Internship.</h2>
-        <p class="section-subheadline">Verified industrial deployment and professional development.</p>
-
-        <div class="list-row">
-            <div class="list-main">
-                <h3 class="list-title">Junior Developer Intern</h3>
-                <div class="list-subtitle">Cruising Club India</div>
-                <p class="list-desc">Operated within a production environment to build full-stack features. Engineered core Laravel business logic, managed database schemas, and refactored secure RBAC authentication modules under professional code review. Collaborated directly with senior engineers to ensure high-performance deployments.</p>
-            </div>
-            <div class="list-meta">
-                <span class="list-badge">Professional Role</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-wrapper" id="education">
-        <h2 class="section-headline">Education.</h2>
-        <p class="section-subheadline">Academic foundation and core computer science metrics.</p>
-
-        <div class="list-row">
-            <div class="list-main">
-                <h3 class="list-title">Bachelor of Engineering in IT</h3>
-                <div class="list-subtitle">Goa College of Engineering, Ponda</div>
-                <p class="list-desc">Comprehensive four-year curriculum focused on fundamental computer science principles. Key focuses included Data Structures, Algorithm Complexity, Relational Database Management Systems, and low-level Network Transport Protocols.</p>
-            </div>
-            <div class="list-meta">
-                <span class="list-badge">Completed Degree</span>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer-section" id="contact">
-        <h2 class="footer-headline">Let's connect.</h2>
-        
-        <div class="footer-socials">
-            <a href="mailto:madkaikarsitesh@gmail.com" class="footer-social-link">
-                <i class="fas fa-envelope"></i> madkaikarsitesh@gmail.com
-            </a>
-            <a href="tel:+919527803185" class="footer-social-link">
-                <i class="fas fa-phone"></i> +91 9527803185
-            </a>
-            <a href="https://www.linkedin.com/in/sitesh-madkaikar/" target="_blank" class="footer-social-link">
-                <i class="fab fa-linkedin"></i> LinkedIn Profile
-            </a>
-        </div>
-
-        <p class="footer-copyright">Designed & Engineered by Sitesh Madkaikar • Goa, India</p>
     </footer>
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Sitesh Madkaikar",
+      "jobTitle": "Software Engineer",
+      "address": { "@type": "PostalAddress", "addressLocality": "Goa", "addressCountry": "IN" },
+      "alumniOf": { "@type": "CollegeOrUniversity", "name": "Goa College of Engineering" },
+      "knowsAbout": ["Laravel", "PHP", "MySQL", "Linux", "Raspberry Pi", "DNS"]
+    }
+    </script>
+
     <script>
-        // STRICT 4-SECOND PRELOADER LOGIC
-        document.addEventListener("DOMContentLoaded", () => {
-            const preloader = document.getElementById('apple-loader');
-            const body = document.body;
+        // --- Theme: Auto / Light / Dark (saved, no-flash, live OS sync in Auto) ---
+        const themeBtn = document.getElementById('theme-btn');
+        const themeMq = window.matchMedia('(prefers-color-scheme: dark)');
+        const THEME_ICONS = { auto: '◐', light: '○', dark: '●' };
 
-            // Wait exactly 4000 milliseconds (4 seconds), then fade out
-            setTimeout(() => {
-                preloader.style.opacity = '0';
-                preloader.style.visibility = 'hidden';
-                body.classList.remove('loading');
-            }, 4000);
+        function currentTheme() {
+            return document.documentElement.getAttribute('data-theme') || 'auto';
+        }
+        function isDarkResolved() {
+            const m = currentTheme();
+            return m === 'dark' || (m === 'auto' && themeMq.matches);
+        }
+        function applyTheme(mode) {
+            document.documentElement.setAttribute('data-theme', mode);
+            try { localStorage.setItem('sm-theme', mode); } catch (e) {}
+            themeBtn.textContent = THEME_ICONS[mode] + ' ' + mode.charAt(0).toUpperCase() + mode.slice(1);
+            themeBtn.setAttribute('aria-label', 'Theme: ' + mode + '. Click to switch.');
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', isDarkResolved() ? '#151310' : '#f4f1ea');
+        }
+        applyTheme(currentTheme());
+
+        themeBtn.addEventListener('click', () => {
+            const order = { auto: 'light', light: 'dark', dark: 'auto' };
+            applyTheme(order[currentTheme()] || 'auto');
         });
 
-        // Smooth Scrolling for Nav Links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
+        // OS theme flipped while page is open and mode is Auto -> resync meta color
+        const onSystemThemeChange = () => { if (currentTheme() === 'auto') applyTheme('auto'); };
+        if (themeMq.addEventListener) themeMq.addEventListener('change', onSystemThemeChange);
+        else if (themeMq.addListener) themeMq.addListener(onSystemThemeChange); // old Safari
+
+        // --- Mobile menu (closes on link tap, Escape, outside click) ---
+        const header = document.querySelector('header');
+        const menuToggle = document.getElementById('menu-toggle');
+
+        function setMenu(open) {
+            header.classList.toggle('nav-open', open);
+            menuToggle.setAttribute('aria-expanded', String(open));
+            menuToggle.textContent = open ? 'Close' : 'Menu';
+        }
+        menuToggle.addEventListener('click', () => setMenu(!header.classList.contains('nav-open')));
+        document.querySelectorAll('.mobile-index a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+        document.addEventListener('click', e => {
+            if (header.classList.contains('nav-open') && !header.contains(e.target)) setMenu(false);
         });
+
+        // --- Scroll reveal (fallback: never leave content hidden) ---
+        const revealEls = document.querySelectorAll('.reveal');
+        if ('IntersectionObserver' in window) {
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    const el = entry.target;
+                    el.classList.add('visible');
+                    el.addEventListener('transitionend', () => { el.style.transitionDelay = '0s'; }, { once: true });
+                    revealObserver.unobserve(el);
+                });
+            }, { threshold: 0.1 });
+            revealEls.forEach(el => revealObserver.observe(el));
+        } else {
+            revealEls.forEach(el => el.classList.add('visible'));
+        }
+
+        // --- Active nav link highlighting ---
+        if ('IntersectionObserver' in window) {
+            const indexLinks = document.querySelectorAll('.index a[href^="#"]');
+            const spy = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        indexLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + entry.target.id));
+                    }
+                });
+            }, { rootMargin: '-30% 0px -60% 0px' });
+            document.querySelectorAll('section.block[id]').forEach(s => spy.observe(s));
+        }
+
+        // --- Live IST clock ---
+        function tick() {
+            const t = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Kolkata' });
+            const c1 = document.getElementById('clock');
+            const c2 = document.getElementById('clock-2');
+            if (c1) c1.textContent = t + ' IST';
+            if (c2) c2.textContent = t + ' IST';
+        }
+        tick();
+        setInterval(tick, 1000);
+
+        // --- Auto year ---
+        const y = new Date().getFullYear();
+        document.getElementById('year').textContent = y;
+        document.getElementById('year-2').textContent = y;
     </script>
 </body>
 </html>

@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sitesh Madkaikar  Software Engineer</title>
+    <title>Sitesh Madkaikar Software Engineer</title>
     <meta name="description" content="Sitesh Madkaikar is a software engineer from Goa, India specializing in Laravel/PHP backends, relational databases, and Linux-based infrastructure.">
+    <meta name="author" content="Sitesh Madkaikar">
     <meta name="theme-color" content="#f4f1ea">
 
     <!-- Set theme before first paint (prevents flash of wrong theme) -->
@@ -12,6 +13,7 @@
     (function () {
         var mode = 'auto';
         try { mode = localStorage.getItem('sm-theme') || 'auto'; } catch (e) {}
+        if (mode !== 'light' && mode !== 'dark') mode = 'auto'; // sanitize bad saved values
         document.documentElement.setAttribute('data-theme', mode);
     })();
     </script>
@@ -22,9 +24,15 @@
     <meta property="og:url" content="https://YOUR-USERNAME.github.io/REPO-NAME/">
     <meta property="og:image" content="https://YOUR-USERNAME.github.io/REPO-NAME/assets/profile.jpg">
     -->
-    <meta property="og:title" content="Sitesh Madkaikar  Software Engineer">
+    <meta property="og:title" content="Sitesh Madkaikar Software Engineer">
     <meta property="og:description" content="Full-stack Laravel/PHP engineer building reliable backends, clean databases, and Linux-based infrastructure. Goa, India.">
     <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Sitesh Madkaikar Software Engineer">
+    <meta name="twitter:description" content="Full-stack Laravel/PHP engineer building reliable backends, clean databases, and Linux-based infrastructure. Goa, India.">
+    <!-- After deploying, uncomment and set your real URL:
+    <link rel="canonical" href="https://YOUR-USERNAME.github.io/REPO-NAME/">
+    -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,6 +43,7 @@
 
     <style>
         :root {
+            color-scheme: light; /* native scrollbars/controls match theme */
             --paper: #f4f1ea;
             --ink: #121210;
             --muted: #75705f;
@@ -50,6 +59,7 @@
 
         /* --- DARK THEME (manual) --- */
         [data-theme="dark"] {
+            color-scheme: dark;
             --paper: #151310;
             --ink: #f2eee3;
             --muted: #9a9382;
@@ -61,6 +71,7 @@
         /* --- DARK THEME (auto = follow OS) --- */
         @media (prefers-color-scheme: dark) {
             [data-theme="auto"] {
+                color-scheme: dark;
                 --paper: #151310;
                 --ink: #f2eee3;
                 --muted: #9a9382;
@@ -88,8 +99,18 @@
         ::selection { background: var(--accent); color: var(--accent-ink); }
         :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-        section[id] { scroll-margin-top: 72px; }
+        section[id], footer[id] { scroll-margin-top: 80px; }
         a { color: inherit; }
+
+        /* --- SKIP LINK (a11y: visible on keyboard focus) --- */
+        .skip {
+            position: absolute; left: -9999px; top: 10px; z-index: 1000;
+            background: var(--ink); color: var(--paper);
+            padding: 10px 18px; border-radius: 999px;
+            font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+            text-decoration: none;
+        }
+        .skip:focus { left: 16px; }
 
         .wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
 
@@ -111,6 +132,9 @@
         }
         html.js .reveal.visible { opacity: 1; transform: none; }
 
+        /* --- PARALLAX (transform-driven; JS respects reduced-motion) --- */
+        [data-parallax] { will-change: transform; }
+
         /* --- HEADER --- */
         header {
             position: sticky; top: 0; z-index: 500;
@@ -127,14 +151,17 @@
         .wordmark { font-family: var(--sans); font-weight: 700; font-size: 17px; letter-spacing: -0.01em; text-decoration: none; }
         .wordmark span { color: var(--accent); }
 
+        /* Scroll progress (thin accent line on the header border) */
+        .progress { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; pointer-events: none; }
+        .progress span { display: block; height: 100%; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); }
+
         .index { display: flex; gap: 26px; list-style: none; align-items: center; }
         .index a {
             font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
             color: var(--muted); text-decoration: none; transition: color 0.15s ease;
         }
         .index a sup { color: var(--accent); font-size: 9px; margin-right: 2px; }
-        .index a:hover, .index a.active { color: var(--ink); }
-        .index a.active { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        .index a.active { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
 
         .theme-btn {
             font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
@@ -143,7 +170,6 @@
             display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
             transition: border-color 0.15s ease, color 0.15s ease;
         }
-        .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
 
         .btn {
             display: inline-flex; align-items: center; gap: 10px;
@@ -152,10 +178,8 @@
             background: var(--ink); color: var(--paper); border: 1px solid var(--ink);
             transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
         }
-        .btn:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); transform: translateY(-2px); }
         .btn.sm { padding: 9px 18px; font-size: 13px; }
         .btn.ghost { background: transparent; color: var(--ink); }
-        .btn.ghost:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 
         .menu-toggle {
             display: none; background: var(--ink); color: var(--paper); border: none; cursor: pointer;
@@ -172,6 +196,19 @@
 
         /* --- HERO --- */
         .hero { min-height: 92vh; min-height: 92svh; display: flex; flex-direction: column; justify-content: center; padding: 64px 0 56px; position: relative; }
+        .hero > .wrap { position: relative; z-index: 1; }
+
+        /* Decorative parallax layer behind hero content */
+        .hero-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; user-select: none; z-index: 0; }
+        .hero-bg-word {
+            position: absolute; right: -2vw; bottom: 3vh;
+            font-family: var(--serif); font-style: italic; font-weight: 400;
+            font-size: clamp(90px, 22vw, 320px); line-height: 1; white-space: nowrap;
+            color: transparent; -webkit-text-stroke: 1.5px var(--line);
+        }
+        .hero-bg-orb { position: absolute; left: 6vw; top: 12vh; width: 130px; height: 130px; border: 1.5px solid var(--line); border-radius: 50%; }
+        .hero-bg-star { position: absolute; left: 20vw; top: 28vh; font-size: 26px; color: var(--accent); opacity: 0.55; }
+
         .hero-meta { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; color: var(--muted); margin-bottom: 48px; }
         .hero-meta .hm-left { text-align: left; }
         .hero-meta .hero-loc { text-align: center; }
@@ -197,7 +234,6 @@
             overflow: hidden; padding: 14px 0; white-space: nowrap;
         }
         .marquee-track { display: inline-flex; animation: scroll 26s linear infinite; will-change: transform; }
-        .marquee:hover .marquee-track { animation-play-state: paused; }
         .marquee-track span {
             font-family: var(--sans); font-weight: 600; font-size: 15px;
             letter-spacing: 0.12em; text-transform: uppercase; padding-right: 16px;
@@ -230,8 +266,7 @@
             border: 2px solid var(--ink); border-radius: 16px;
             filter: grayscale(1) contrast(1.05); transition: filter 0.4s ease, transform 0.4s ease;
         }
-        .figure:hover img { filter: none; transform: rotate(-1.5deg); }
-        /* Touch devices have no hover  show photo in color */
+        /* Touch devices have no hover: show photo in color */
         @media (hover: none) {
             .figure img { filter: none; }
         }
@@ -240,15 +275,12 @@
         .sticker svg { width: 100%; height: 100%; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Skills  bordered grid, hover invert */
+        /* Skills: bordered grid, hover invert */
         .spec-grid { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink); border-left: 1px solid var(--ink); }
         .spec-cell {
             border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink);
             padding: 28px; transition: background 0.2s ease, color 0.2s ease;
         }
-        .spec-cell:hover { background: var(--ink); color: var(--paper); }
-        .spec-cell:hover .spec-num { color: var(--accent); }
-        .spec-cell:hover .spec-cat { color: var(--muted); }
         .spec-num { font-family: var(--mono); font-size: 12px; color: var(--accent); display: block; margin-bottom: 20px; transition: color 0.2s ease; }
         .spec-cat { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 10px; transition: color 0.2s ease; }
         .spec-val { font-family: var(--sans); font-weight: 600; font-size: clamp(18px, 2vw, 22px); line-height: 1.45; }
@@ -261,17 +293,19 @@
             color: transparent; -webkit-text-stroke: 1.5px var(--ink);
             transition: color 0.25s ease, -webkit-text-stroke-color 0.25s ease;
         }
-        .entry:hover .entry-num { color: var(--accent); -webkit-text-stroke-color: var(--accent); }
+        /* Fallback: browsers without text-stroke would render the numbers invisible */
+        @supports not (-webkit-text-stroke: 1px #000) {
+            .entry-num { color: var(--ink); }
+            .hero-bg-word { color: var(--line); -webkit-text-stroke: 0; }
+        }
         .entry-title { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 3.6vw, 40px); letter-spacing: -0.01em; margin-bottom: 6px; }
         .entry-title a { text-decoration: none; transition: color 0.15s ease; }
-        .entry-title a:hover { color: var(--accent); }
         .entry-stack { color: var(--muted); margin-bottom: 20px; }
         .entry-desc { max-width: 58ch; color: var(--body); margin-bottom: 22px; }
         .entry-points { list-style: none; max-width: 66ch; }
         .entry-points li { padding: 9px 0 9px 26px; position: relative; border-top: 1px solid var(--line); font-size: 15px; }
         .entry-points li::before { content: "→"; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
         .entry-repo { display: inline-block; margin-top: 20px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 2px; transition: color 0.15s ease; }
-        .entry-repo:hover { color: var(--accent); }
 
         /* CV rows */
         .cv-row { display: grid; grid-template-columns: 200px 1fr; gap: 32px; padding: 32px 0; border-bottom: 1px solid var(--line); }
@@ -282,6 +316,9 @@
         .cv-desc { max-width: 60ch; color: var(--body); font-size: 15px; margin-bottom: 16px; }
         .cv-tags { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 
+        /* Nicer multi-line headline wrapping (progressive enhancement) */
+        .block-title, .entry-title, .cv-title { text-wrap: balance; }
+
         /* --- FOOTER --- */
         footer { padding: 110px 0 40px; }
         .footer-kicker { color: var(--muted); margin-bottom: 24px; }
@@ -291,16 +328,33 @@
             text-transform: uppercase; text-decoration: none; margin-bottom: 20px;
             transition: color 0.2s ease;
         }
-        .footer-giant:hover { color: var(--accent); }
         .footer-giant .arrow { display: inline-block; transition: transform 0.25s ease; }
-        .footer-giant:hover .arrow { transform: translate(10px, -10px); }
         .footer-mail { font-family: var(--serif); font-style: italic; font-size: clamp(18px, 2.4vw, 24px); color: var(--muted); }
         .footer-mail a { text-decoration: none; border-bottom: 1px solid var(--line); }
-        .footer-mail a:hover { color: var(--accent); border-bottom-color: var(--accent); }
         .footer-grid { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; border-top: 1px solid var(--line); margin-top: 72px; padding-top: 20px; color: var(--muted); }
         .footer-grid a { text-decoration: none; }
-        .footer-grid a:hover { color: var(--accent); }
         .footer-joke { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px dashed var(--line); color: var(--muted); font-size: 11px; }
+
+        /* --- HOVER EFFECTS (gated so touch devices never get sticky hover states) --- */
+        @media (hover: hover) {
+            .index a:hover { color: var(--ink); }
+            .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+            .btn:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); transform: translateY(-2px); }
+            .btn.ghost:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+            .marquee:hover .marquee-track { animation-play-state: paused; }
+            .figure:hover img { filter: none; transform: rotate(-1.5deg); }
+            .spec-cell:hover { background: var(--ink); color: var(--paper); }
+            .spec-cell:hover .spec-num { color: var(--accent); }
+            .spec-cell:hover .spec-cat { color: var(--muted); }
+            .entry:hover .entry-num { color: var(--accent); -webkit-text-stroke-color: var(--accent); }
+            .entry-title a:hover { color: var(--accent); }
+            .entry-repo:hover { color: var(--accent); }
+            .footer-giant:hover { color: var(--accent); }
+            .footer-giant:hover .arrow { transform: translate(10px, -10px); }
+            .footer-grid a:hover { color: var(--accent); }
+            .footer-mail a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+            .loc-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+        }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 900px) {
@@ -312,6 +366,7 @@
             .entry { grid-template-columns: 1fr; gap: 16px; }
             .entry-num { font-size: 44px; }
             .cv-row { grid-template-columns: 1fr; gap: 8px; }
+            .hero-bg-orb { width: 90px; height: 90px; top: 8vh; }
         }
         @media (max-width: 640px) {
             .wrap { padding: 0 20px; }
@@ -320,6 +375,7 @@
             .sticker { width: 76px; height: 76px; top: -26px; right: -8px; }
             .hero-meta { grid-template-columns: 1fr; text-align: center; }
             .hero-meta .hm-left, .hero-meta .hm-right { text-align: center; }
+            .hero-bg-star { display: none; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -329,13 +385,21 @@
         }
 
         @media print {
-            header, .hero-cta, .marquee, .grain, .sticker { display: none; }
+            header, .hero-cta, .marquee, .grain, .sticker, .hero-bg { display: none; }
             body { background: #fff; }
         }
+
+        /* Clickable location pin */
+        .loc-link {
+          color: inherit; text-decoration: none;
+          border-bottom: 1px solid var(--line); padding-bottom: 1px;
+          transition: color 0.15s ease, border-color 0.15s ease;
+         }
     </style>
 </head>
 <body>
 
+    <a class="skip" href="#top">Skip to content</a>
     <div class="grain" aria-hidden="true"></div>
 
     <header>
@@ -348,30 +412,39 @@
                     <li><a href="#work"><sup>03</sup>Work</a></li>
                     <li><a href="#experience"><sup>04</sup>Experience</a></li>
                     <li><a href="#education"><sup>05</sup>Education</a></li>
+                    <li><a href="#contact"><sup>06</sup>Contact</a></li>
                 </ul>
                 <button class="theme-btn" id="theme-btn" aria-label="Theme: auto. Click to switch.">◐ Auto</button>
                 <a href="mailto:madkaikarsitesh@gmail.com" class="btn sm header-cta">Let's talk ↗</a>
                 <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="mobile-index">Menu</button>
             </div>
         </div>
+        <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
         <div class="wrap mobile-index" id="mobile-index">
             <a href="#about">About <span>01</span></a>
             <a href="#skills">Stack <span>02</span></a>
             <a href="#work">Work <span>03</span></a>
             <a href="#experience">Experience <span>04</span></a>
             <a href="#education">Education <span>05</span></a>
+            <a href="#contact">Contact <span>06</span></a>
             <a href="mailto:madkaikarsitesh@gmail.com">Email <span>↗</span></a>
         </div>
     </header>
 
-    <main id="top">
+    <main id="top" tabindex="-1">
 
         <!-- HERO -->
         <section class="hero" id="hero">
-            <div class="wrap">
+            <!-- Decorative parallax layer (speeds = scroll lag factor) -->
+            <div class="hero-bg" aria-hidden="true">
+                <span class="hero-bg-word" data-parallax="0.16">engineer</span>
+                <span class="hero-bg-orb" data-parallax="0.28"></span>
+                <span class="hero-bg-star" data-parallax="0.42">✦</span>
+            </div>
+            <div class="wrap" data-parallax="0.08">
                 <div class="hero-meta mono">
                     <span class="hm-left">Portfolio © <span id="year">2026</span></span>
-                    <span class="hero-loc">15°29′56″N 73°49′40″E  Panjim, Goa  <span id="clock">IST</span></span>
+                    <span class="hero-loc"><a class="loc-link" href="https://www.google.com/maps?q=15.2993,74.1240&amp;z=9" target="_blank" rel="noopener noreferrer" aria-label="View location: Goa, India on Google Maps">📍 15°17′58″N 74°07′26″E Goa, India</a> <span id="clock">IST</span></span>
                     <span class="accent hm-right">▪ Available for work</span>
                 </div>
 
@@ -382,7 +455,7 @@
 
                 <div class="hero-role reveal" style="--d:0.1s">
                     <span class="line"></span>
-                    <p>Software Engineer  building reliable backends, clean databases &amp; self-hosted infrastructure.</p>
+                    <p>Software Engineer building reliable backends, clean databases &amp; self-hosted infrastructure.</p>
                 </div>
 
                 <div class="hero-cta reveal" style="--d:0.2s">
@@ -412,13 +485,13 @@
                     <aside class="block-aside mono">
                         <div class="sticky">
                             <p>Profile</p>
-                            <p>B.E. Information Technology  Goa College of Engineering</p>
+                            <p>B.E. Information Technology, Goa College of Engineering</p>
                         </div>
                     </aside>
                     <div>
                         <p class="about-lede reveal">I engineer <span class="hl">monolithic backends</span> built for raw execution speed, clean relational databases, and <span class="hl">modern UI</span> implementation.</p>
                         <div class="about-body reveal" style="--d:0.1s">
-                            <p>My core expertise lies within the Laravel/PHP ecosystem, alongside low-level hardware setups like Raspberry Pi network administration. I write code that doesn't just work  it scales cleanly.</p>
+                            <p>My core expertise lies within the Laravel/PHP ecosystem, alongside low-level hardware setups like Raspberry Pi network administration. I write code that doesn't just work. It scales cleanly.</p>
                         </div>
                         <!--<figure class="figure reveal" style="--d:0.15s">
                             <div class="sticker" aria-hidden="true">
@@ -498,7 +571,7 @@
                     <div>
 
                         <article class="entry reveal">
-                            <div class="entry-num">01</div>
+                            <div class="entry-num" data-parallax="0.05">01</div>
                             <div>
                                 <h3 class="entry-title">DigiPet Core Engine</h3>
                                 <p class="entry-stack mono">Python AI / Laravel / SQLite / RBAC</p>
@@ -516,16 +589,16 @@
                         </article>
 
                         <article class="entry reveal">
-                            <div class="entry-num">02</div>
+                            <div class="entry-num" data-parallax="0.05">02</div>
                             <div>
                                 <h3 class="entry-title">Hardware Filtration</h3>
                                 <p class="entry-stack mono">Raspberry Pi / Linux / DNS / Networking</p>
-                                <p class="entry-desc">Hardware-level network traffic management deployed on a Raspberry Pi  a self-hosted DNS sinkhole protecting an entire network.</p>
+                                <p class="entry-desc">Hardware-level network traffic management deployed on a Raspberry Pi, a self-hosted DNS sinkhole protecting an entire network.</p>
                                 <ul class="entry-points">
                                     <li>Raspberry Pi deployed as a network-wide DNS sinkhole</li>
                                     <li>Custom DNS routing tables configured entirely via the Linux CLI</li>
                                     <li>Intercepts and blocks malicious telemetry for every device on the network</li>
-                                    <li>Fully self-hosted  zero third-party dependencies</li>
+                                    <li>Fully self-hosted, zero third-party dependencies</li>
                                 </ul>
                                 <!-- OPTIONAL: uncomment, replace URL with your real repo
                                 <a href="https://github.com/YOUR-USERNAME/hardware-filtration" class="entry-repo" target="_blank" rel="noopener">Repository ↗</a>
@@ -585,7 +658,7 @@
                     </aside>
                     <div>
                         <div class="cv-row reveal">
-                            <div class="cv-side mono">B.E.  IT<br>Completed</div>
+                            <div class="cv-side mono">B.E. IT<br>Completed</div>
                             <div>
                                 <h3 class="cv-title">Bachelor of Engineering, IT</h3>
                                 <p class="cv-org mono accent">Goa College of Engineering, Ponda</p>
@@ -605,17 +678,17 @@
         <div class="wrap">
             <p class="footer-kicker mono reveal">Have a role in mind?</p>
             <a class="footer-giant reveal" href="mailto:madkaikarsitesh@gmail.com" style="--d:0.1s">Let's talk <span class="arrow">↗</span></a>
-            <p class="footer-mail reveal" style="--d:0.15s">or write directly  <a href="mailto:madkaikarsitesh@gmail.com">madkaikarsitesh@gmail.com</a></p>
+            <p class="footer-mail reveal" style="--d:0.15s">or write directly <a href="mailto:madkaikarsitesh@gmail.com">madkaikarsitesh@gmail.com</a></p>
             <div class="footer-grid mono">
-                <span><a href="https://www.linkedin.com/in/sitesh-madkaikar/" target="_blank" rel="noopener">LinkedIn ↗</a></span>
+                <span><a href="https://www.linkedin.com/in/sitesh-madkaikar/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></span>
                 <!-- OPTIONAL: uncomment and set your GitHub profile URL
                 <span><a href="https://github.com/YOUR-USERNAME" target="_blank" rel="noopener">GitHub ↗</a></span>
                 -->
-                <span>15°29′56″N 73°49′40″E  Panjim, Goa  <span id="clock-2">IST</span></span>
+                <span><a class="loc-link" href="https://www.google.com/maps?q=15.2993,74.1240&amp;z=9" target="_blank" rel="noopener noreferrer" aria-label="View location: Goa, India on Google Maps">📍 15°17′58″N 74°07′26″E Goa, India</a> <span id="clock-2">IST</span></span>
                 <span>© <span id="year-2">2026</span> Sitesh Madkaikar</span>
                 <span><a href="#top">Back to top ↑</a></span>
             </div>
-            <div class="footer-joke mono">definitely not vibe coded <span aria-hidden="true">💀</span>  handcrafted html, css &amp; 3am php energy only</div>
+            <div class="footer-joke mono">definitely not vibe coded <span aria-hidden="true">💀</span> handcrafted html, css &amp; 3am php energy only</div>
         </div>
     </footer>
 
@@ -625,8 +698,10 @@
       "@type": "Person",
       "name": "Sitesh Madkaikar",
       "jobTitle": "Software Engineer",
+      "email": "mailto:madkaikarsitesh@gmail.com",
       "address": { "@type": "PostalAddress", "addressLocality": "Goa", "addressCountry": "IN" },
       "alumniOf": { "@type": "CollegeOrUniversity", "name": "Goa College of Engineering" },
+      "sameAs": ["https://www.linkedin.com/in/sitesh-madkaikar/"],
       "knowsAbout": ["Laravel", "PHP", "MySQL", "Linux", "Raspberry Pi", "DNS"]
     }
     </script>
@@ -638,7 +713,8 @@
         const THEME_ICONS = { auto: '◐', light: '○', dark: '●' };
 
         function currentTheme() {
-            return document.documentElement.getAttribute('data-theme') || 'auto';
+            const m = document.documentElement.getAttribute('data-theme');
+            return (m === 'light' || m === 'dark') ? m : 'auto';
         }
         function isDarkResolved() {
             const m = currentTheme();
@@ -697,18 +773,71 @@
             revealEls.forEach(el => el.classList.add('visible'));
         }
 
-        // --- Active nav link highlighting ---
+        // --- Active nav link highlighting (+ aria-current for screen readers) ---
         if ('IntersectionObserver' in window) {
             const indexLinks = document.querySelectorAll('.index a[href^="#"]');
             const spy = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        indexLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + entry.target.id));
+                        indexLinks.forEach(l => {
+                            const active = l.getAttribute('href') === '#' + entry.target.id;
+                            l.classList.toggle('active', active);
+                            if (active) l.setAttribute('aria-current', 'true');
+                            else l.removeAttribute('aria-current');
+                        });
                     }
                 });
             }, { rootMargin: '-30% 0px -60% 0px' });
-            document.querySelectorAll('section.block[id]').forEach(s => spy.observe(s));
+            document.querySelectorAll('section.block[id], footer[id]').forEach(s => spy.observe(s));
         }
+
+        // --- Parallax (scroll-linked, GPU transforms, reduced-motion safe) ---
+        (function () {
+            if (!window.matchMedia) return;
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const els = Array.prototype.slice.call(document.querySelectorAll('[data-parallax]'));
+            if (!els.length) return;
+            const items = els.map(el => ({
+                el: el,
+                speed: parseFloat(el.getAttribute('data-parallax')) || 0,
+                center: 0
+            }));
+            function measure() {
+                items.forEach(it => {
+                    it.el.style.transform = ''; // reset before measuring to avoid feedback loop
+                    const r = it.el.getBoundingClientRect();
+                    it.center = r.top + window.scrollY + r.height / 2;
+                });
+            }
+            let ticking = false;
+            function update() {
+                ticking = false;
+                const mid = window.scrollY + window.innerHeight / 2;
+                items.forEach(it => {
+                    const y = (mid - it.center) * it.speed;
+                    it.el.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
+                });
+            }
+            function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', () => { measure(); update(); });
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(); update(); });
+            measure();
+            update();
+        })();
+
+        // --- Scroll progress bar ---
+        (function () {
+            const bar = document.getElementById('progress-bar');
+            if (!bar) return;
+            function updateProgress() {
+                const h = document.documentElement.scrollHeight - window.innerHeight;
+                bar.style.transform = 'scaleX(' + (h > 0 ? window.scrollY / h : 0) + ')';
+            }
+            window.addEventListener('scroll', updateProgress, { passive: true });
+            window.addEventListener('resize', updateProgress);
+            updateProgress();
+        })();
 
         // --- Live IST clock (12-hour) ---
         function tick() {

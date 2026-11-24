@@ -38,8 +38,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Flags JS availability (used by reveal animations) -->
+    <!-- Flags JS availability (used by reveal animations + masked title) -->
     <script>document.documentElement.classList.add('js');</script>
+
+    <!-- Arm intro shutter: plays on EVERY load; reduced-motion users skip it -->
+    <script>
+    (function () {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        document.documentElement.classList.add('intro');
+    })();
+    </script>
 
     <style>
         :root {
@@ -132,8 +140,50 @@
         }
         html.js .reveal.visible { opacity: 1; transform: none; }
 
-        /* --- PARALLAX (transform-driven; JS respects reduced-motion) --- */
-        [data-parallax] { will-change: transform; }
+        /* --- MASKED TITLE RISE (no-JS = visible; reduced-motion = instant) --- */
+        .mask { display: block; overflow: hidden; }
+        html.js .mask-inner {
+        display: inline-block; /* transforms are ignored on plain inline spans */
+        transform: translateY(115%);
+        animation: rise 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .hero-name .mask:nth-child(1) .mask-inner { animation-delay: 0.05s; }
+        .hero-name .mask:nth-child(2) .mask-inner { animation-delay: 0.14s; }
+        @keyframes rise { to { transform: translateY(0); } }
+
+        /* --- INTRO SHUTTER (plays every load; pure CSS playback; JS only cleans up) --- */
+        .intro-shutter { position: fixed; inset: 0; z-index: 1500; display: none; pointer-events: none; }
+        html.intro .intro-shutter { display: block; }
+        .intro-shutter .panel { position: absolute; left: 0; width: 100%; height: 50.5%; background: var(--ink); }
+        .intro-shutter .panel.top { top: 0; animation: shutter-up 0.65s cubic-bezier(0.76, 0, 0.24, 1) 0.7s forwards; }
+        .intro-shutter .panel.bottom { bottom: 0; animation: shutter-down 0.65s cubic-bezier(0.76, 0, 0.24, 1) 0.7s forwards; }
+        @keyframes shutter-up { to { transform: translateY(-102%); } }
+        @keyframes shutter-down { to { transform: translateY(102%); } }
+        .intro-mark {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+            color: var(--paper);
+            animation: mark-fade 0.45s ease both, mark-fade-out 0.3s ease-in 0.62s forwards;
+        }
+        .intro-mark .im-mask { display: block; overflow: hidden; }
+        .intro-mark .im-rise { display: inline-block; transform: translateY(115%); animation: rise 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards; }
+        .intro-mark .im-word {
+            font-family: var(--sans); font-weight: 700; letter-spacing: -0.04em; text-transform: uppercase;
+            font-size: clamp(44px, 9vw, 96px); line-height: 1;
+        }
+        .intro-mark .im-word span { color: var(--accent); }
+        .intro-mark .im-sub { opacity: 0.75; }
+        @keyframes mark-fade { from { opacity: 0; } }
+        @keyframes mark-fade-out { to { opacity: 0; } }
+
+        /* While the shutter plays, hold the hero back so it performs on reveal */
+        html.intro .hero-name .mask:nth-child(1) .mask-inner { animation-delay: 1.15s; }
+        html.intro .hero-name .mask:nth-child(2) .mask-inner { animation-delay: 1.25s; }
+        html.intro .hero .reveal { transition-delay: calc(var(--d, 0s) + 0.9s); }
+
+        /* --- PARALLAX v4 (transform-driven; JS respects reduced-motion) --- */
+        [data-parallax], [data-parallax-y], [data-parallax-x], [data-parallax-scale], [data-parallax-rotate] { will-change: transform; }
 
         /* --- HEADER --- */
         header {
@@ -181,6 +231,18 @@
         .btn.sm { padding: 9px 18px; font-size: 13px; }
         .btn.ghost { background: transparent; color: var(--ink); }
 
+        /* --- FLIP BUTTON (3D hover flip; touch devices keep the front face) --- */
+        .btn-flip { padding: 0; perspective: 700px; }
+        .btn-flip .flip-inner { position: relative; display: block; transform-style: preserve-3d; transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+        .btn-flip .flip-face {
+            display: flex; align-items: center; justify-content: center; white-space: nowrap;
+            padding: 12px 22px; border-radius: 999px;
+            background: var(--ink); color: var(--paper);
+            backface-visibility: hidden; -webkit-backface-visibility: hidden;
+        }
+        .btn-flip .flip-back { position: absolute; inset: 0; transform: rotateX(180deg); background: var(--accent); color: var(--accent-ink); }
+        .btn-flip:focus-visible .flip-inner { transform: rotateX(180deg); }
+
         .menu-toggle {
             display: none; background: var(--ink); color: var(--paper); border: none; cursor: pointer;
             font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
@@ -208,6 +270,11 @@
         }
         .hero-bg-orb { position: absolute; left: 6vw; top: 12vh; width: 130px; height: 130px; border: 1.5px solid var(--line); border-radius: 50%; }
         .hero-bg-star { position: absolute; left: 20vw; top: 28vh; font-size: 26px; color: var(--accent); opacity: 0.55; }
+
+        /* Floating stamp: wrapper carries parallax transforms, inner carries the eternal spin */
+        .stamp-float { position: absolute; right: 9vw; top: 15vh; width: 108px; height: 108px; pointer-events: none; }
+        .stamp-spin { width: 100%; height: 100%; animation: spin 16s linear infinite; }
+        .stamp-spin svg { display: block; width: 100%; height: 100%; }
 
         .hero-meta { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; color: var(--muted); margin-bottom: 48px; }
         .hero-meta .hm-left { text-align: left; }
@@ -242,11 +309,21 @@
         @keyframes scroll { to { transform: translateX(-50%); } }
 
         /* --- SECTIONS --- */
-        section.block { padding: 96px 0; border-bottom: 1px solid var(--line); }
+        section.block { position: relative; padding: 96px 0; border-bottom: 1px solid var(--line); }
+        section.block > .wrap { position: relative; z-index: 1; }
         .block-head { display: flex; align-items: baseline; gap: 20px; margin-bottom: 56px; }
         .block-num { font-family: var(--mono); font-size: 13px; color: var(--accent); }
         .block-title { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(30px, 4.4vw, 46px); letter-spacing: -0.01em; }
         .block-head .fill { flex: 1; border-top: 1px solid var(--line); transform: translateY(-8px); }
+
+        /* Giant outlined watermark words drifting behind section content */
+        .watermark {
+            position: absolute; right: -1vw; top: 8%;
+            font-family: var(--serif); font-style: italic; font-weight: 400;
+            font-size: clamp(90px, 16vw, 220px); line-height: 1; white-space: nowrap;
+            color: transparent; -webkit-text-stroke: 1.5px var(--line);
+            pointer-events: none; user-select: none; z-index: 0;
+        }
 
         .block-grid { display: grid; grid-template-columns: 200px 1fr; gap: 56px; }
         .block-aside { color: var(--muted); }
@@ -296,7 +373,7 @@
         /* Fallback: browsers without text-stroke would render the numbers invisible */
         @supports not (-webkit-text-stroke: 1px #000) {
             .entry-num { color: var(--ink); }
-            .hero-bg-word { color: var(--line); -webkit-text-stroke: 0; }
+            .hero-bg-word, .watermark { color: var(--line); -webkit-text-stroke: 0; }
         }
         .entry-title { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 3.6vw, 40px); letter-spacing: -0.01em; margin-bottom: 6px; }
         .entry-title a { text-decoration: none; transition: color 0.15s ease; }
@@ -341,6 +418,8 @@
             .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
             .btn:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); transform: translateY(-2px); }
             .btn.ghost:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+            .btn-flip:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); transform: translateY(-2px); }
+            .btn-flip:hover .flip-inner { transform: rotateX(180deg); }
             .marquee:hover .marquee-track { animation-play-state: paused; }
             .figure:hover img { filter: none; transform: rotate(-1.5deg); }
             .spec-cell:hover { background: var(--ink); color: var(--paper); }
@@ -367,6 +446,7 @@
             .entry-num { font-size: 44px; }
             .cv-row { grid-template-columns: 1fr; gap: 8px; }
             .hero-bg-orb { width: 90px; height: 90px; top: 8vh; }
+            .stamp-float { width: 92px; height: 92px; right: 7vw; top: 12vh; }
         }
         @media (max-width: 640px) {
             .wrap { padding: 0 20px; }
@@ -376,16 +456,17 @@
             .hero-meta { grid-template-columns: 1fr; text-align: center; }
             .hero-meta .hm-left, .hero-meta .hm-right { text-align: center; }
             .hero-bg-star { display: none; }
+            .stamp-float { width: 80px; height: 80px; right: 5vw; top: 10vh; }
         }
 
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
-            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; transition-delay: 0ms !important; }
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; animation-delay: 0ms !important; transition-duration: 0.01ms !important; transition-delay: 0ms !important; }
             .marquee-track { animation: none; }
         }
 
         @media print {
-            header, .hero-cta, .marquee, .grain, .sticker, .hero-bg { display: none; }
+            header, .hero-cta, .marquee, .grain, .sticker, .hero-bg, .watermark, .intro-shutter { display: none; }
             body { background: #fff; }
         }
 
@@ -401,6 +482,16 @@
 
     <a class="skip" href="#top">Skip to content</a>
     <div class="grain" aria-hidden="true"></div>
+
+    <!-- Intro shutter (decorative; JS removes it after it plays) -->
+    <div class="intro-shutter" aria-hidden="true">
+        <div class="panel top"></div>
+        <div class="panel bottom"></div>
+        <div class="intro-mark">
+            <span class="im-mask"><span class="im-rise im-word">SM<span>*</span></span></span>
+            <span class="im-sub mono">Software Engineer — Goa, India</span>
+        </div>
+    </div>
 
     <header>
         <div class="wrap masthead">
@@ -435,31 +526,48 @@
 
         <!-- HERO -->
         <section class="hero" id="hero">
-            <!-- Decorative parallax layer (speeds = scroll lag factor) -->
+            <!-- Decorative parallax layer (hooks: lag, bounded px, scale, rotate) -->
             <div class="hero-bg" aria-hidden="true">
-                <span class="hero-bg-word" data-parallax="0.16">engineer</span>
-                <span class="hero-bg-orb" data-parallax="0.28"></span>
-                <span class="hero-bg-star" data-parallax="0.42">✦</span>
+                <span class="hero-bg-word" data-parallax="0.25">engineer</span>
+                <span class="hero-bg-orb" data-parallax="0.4" data-parallax-scale="1:1.12"></span>
+                <span class="hero-bg-star" data-parallax="0.55">✦</span>
+                <div class="stamp-float" data-parallax="0.18" data-parallax-rotate="-14:14">
+                    <div class="stamp-spin">
+                        <svg viewBox="0 0 100 100">
+                            <defs><path id="stampPath" d="M 50,50 m -36,0 a 36,36 0 1,1 72,0 a 36,36 0 1,1 -72,0"/></defs>
+                            <circle cx="50" cy="50" r="48" style="fill: var(--accent);"/>
+                            <text style="font-family: ui-monospace, monospace; font-size: 11.5px; font-weight: 700; letter-spacing: 2.5px; fill: var(--accent-ink);">
+                                <textPath href="#stampPath">OPEN TO WORK ✦ OPEN TO WORK ✦</textPath>
+                            </text>
+                            <text x="50" y="56" text-anchor="middle" style="font-size: 20px; fill: var(--accent-ink);">↗</text>
+                        </svg>
+                    </div>
+                </div>
             </div>
-            <div class="wrap" data-parallax="0.08">
+            <div class="wrap">
                 <div class="hero-meta mono">
                     <span class="hm-left">Portfolio © <span id="year">2026</span></span>
                     <span class="hero-loc"><a class="loc-link" href="https://www.google.com/maps?q=15.2993,74.1240&amp;z=9" target="_blank" rel="noopener noreferrer" aria-label="View location: Goa, India on Google Maps">📍 15°17′58″N 74°07′26″E Goa, India</a> <span id="clock">IST</span></span>
                     <span class="accent hm-right">▪ Available for work</span>
                 </div>
 
-                <h1 class="hero-name reveal">
-                    Sitesh
-                    <span class="serif">Madkaikar</span>
+                <h1 class="hero-name">
+                    <span class="mask"><span class="mask-inner">Sitesh</span></span>
+                    <span class="serif mask"><span class="mask-inner">Madkaikar</span></span>
                 </h1>
 
-                <div class="hero-role reveal" style="--d:0.1s">
+                <div class="hero-role reveal" style="--d:0.5s">
                     <span class="line"></span>
                     <p>Software Engineer building reliable backends, clean databases &amp; self-hosted infrastructure.</p>
                 </div>
 
-                <div class="hero-cta reveal" style="--d:0.2s">
-                    <a href="#work" class="btn">See my work ↓</a>
+                <div class="hero-cta reveal" style="--d:0.65s">
+                    <a href="#work" class="btn btn-flip">
+                        <span class="flip-inner">
+                            <span class="flip-face">See my work ↓</span>
+                            <span class="flip-face flip-back">View work ↗</span>
+                        </span>
+                    </a>
                     <a href="mailto:madkaikarsitesh@gmail.com" class="btn ghost">Get in touch</a>
                 </div>
             </div>
@@ -475,6 +583,7 @@
 
         <!-- ABOUT -->
         <section class="block" id="about">
+            <span class="watermark" aria-hidden="true" data-parallax="0.1" data-parallax-x="70:-70">about</span>
             <div class="wrap">
                 <div class="block-head">
                     <span class="block-num">01</span>
@@ -514,6 +623,7 @@
 
         <!-- SKILLS -->
         <section class="block" id="skills">
+            <span class="watermark" aria-hidden="true" data-parallax="0.1" data-parallax-x="70:-70">stack</span>
             <div class="wrap">
                 <div class="block-head">
                     <span class="block-num">02</span>
@@ -555,6 +665,7 @@
 
         <!-- WORK -->
         <section class="block" id="work">
+            <span class="watermark" aria-hidden="true" data-parallax="0.1" data-parallax-x="70:-70">work</span>
             <div class="wrap">
                 <div class="block-head">
                     <span class="block-num">03</span>
@@ -571,7 +682,7 @@
                     <div>
 
                         <article class="entry reveal">
-                            <div class="entry-num" data-parallax="0.05">01</div>
+                            <div class="entry-num" data-parallax-y="60:-60">01</div>
                             <div>
                                 <h3 class="entry-title">DigiPet Core Engine</h3>
                                 <p class="entry-stack mono">Python AI / Laravel / SQLite / RBAC</p>
@@ -589,7 +700,7 @@
                         </article>
 
                         <article class="entry reveal">
-                            <div class="entry-num" data-parallax="0.05">02</div>
+                            <div class="entry-num" data-parallax-y="60:-60">02</div>
                             <div>
                                 <h3 class="entry-title">Hardware Filtration</h3>
                                 <p class="entry-stack mono">Raspberry Pi / Linux / DNS / Networking</p>
@@ -613,6 +724,7 @@
 
         <!-- EXPERIENCE -->
         <section class="block" id="experience">
+            <span class="watermark" aria-hidden="true" data-parallax="0.1" data-parallax-x="70:-70">record</span>
             <div class="wrap">
                 <div class="block-head">
                     <span class="block-num">04</span>
@@ -643,6 +755,7 @@
 
         <!-- EDUCATION -->
         <section class="block" id="education">
+            <span class="watermark" aria-hidden="true" data-parallax="0.1" data-parallax-x="70:-70">degree</span>
             <div class="wrap">
                 <div class="block-head">
                     <span class="block-num">05</span>
@@ -756,6 +869,14 @@
             if (header.classList.contains('nav-open') && !header.contains(e.target)) setMenu(false);
         });
 
+        // --- Intro shutter cleanup (playback is pure CSS; this just removes the node) ---
+        (function () {
+            const shutter = document.querySelector('.intro-shutter');
+            if (!shutter) return;
+            shutter.addEventListener('animationend', e => { if (e.animationName === 'shutter-down') shutter.remove(); });
+            setTimeout(() => { if (shutter.parentNode) shutter.remove(); }, 4000); // safety net
+        })();
+
         // --- Scroll reveal (fallback: never leave content hidden) ---
         const revealEls = document.querySelectorAll('.reveal');
         if ('IntersectionObserver' in window) {
@@ -791,39 +912,89 @@
             document.querySelectorAll('section.block[id], footer[id]').forEach(s => spy.observe(s));
         }
 
-        // --- Parallax (scroll-linked, GPU transforms, reduced-motion safe) ---
+        // --- Parallax v4 (scrubbed targets + lerp glide; rAF sleeps when settled) ---
         (function () {
             if (!window.matchMedia) return;
             if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-            const els = Array.prototype.slice.call(document.querySelectorAll('[data-parallax]'));
+
+            const sel = '[data-parallax],[data-parallax-y],[data-parallax-x],[data-parallax-scale],[data-parallax-rotate]';
+            const els = Array.prototype.slice.call(document.querySelectorAll(sel));
             if (!els.length) return;
+
+            // "from:to" bounded range parser (e.g. "60:-60", "1:1.12", "-14:14")
+            function range(v, fb) {
+                if (!v) return fb;
+                const p = v.split(':');
+                const a = parseFloat(p[0]), b = parseFloat(p[1]);
+                return (isNaN(a) || isNaN(b)) ? fb : { from: a, to: b };
+            }
+
             const items = els.map(el => ({
                 el: el,
-                speed: parseFloat(el.getAttribute('data-parallax')) || 0,
-                center: 0
+                lag: parseFloat(el.getAttribute('data-parallax')) || 0,   // page-lag factor
+                ry: range(el.getAttribute('data-parallax-y'), null),      // bounded px, vertical
+                rx: range(el.getAttribute('data-parallax-x'), null),       // bounded px, horizontal
+                rs: range(el.getAttribute('data-parallax-scale'), null),   // bounded scale
+                rr: range(el.getAttribute('data-parallax-rotate'), null),  // bounded degrees
+                center: 0, height: 0,
+                y: 0, x: 0, s: 1, r: 0,     // current values (gliding)
+                ty: 0, tx: 0, ts: 1, tr: 0  // scrubbed targets
             }));
+
             function measure() {
                 items.forEach(it => {
                     it.el.style.transform = ''; // reset before measuring to avoid feedback loop
-                    const r = it.el.getBoundingClientRect();
-                    it.center = r.top + window.scrollY + r.height / 2;
+                    const rect = it.el.getBoundingClientRect();
+                    it.center = rect.top + window.scrollY + rect.height / 2;
+                    it.height = rect.height;
                 });
             }
-            let ticking = false;
-            function update() {
-                ticking = false;
-                const mid = window.scrollY + window.innerHeight / 2;
+
+            function targets() {
+                const vh = window.innerHeight;
+                const mid = window.scrollY + vh / 2;
                 items.forEach(it => {
-                    const y = (mid - it.center) * it.speed;
-                    it.el.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
+                    if (it.lag) it.ty = (mid - it.center) * it.lag;
+                    if (it.ry || it.rx || it.rs || it.rr) {
+                        // progress 0 -> 1 as the element travels through the viewport
+                        const top = it.center - it.height / 2;
+                        let p = (window.scrollY + vh - top) / (vh + it.height);
+                        p = p < 0 ? 0 : (p > 1 ? 1 : p);
+                        if (it.ry) it.ty = it.ry.from + (it.ry.to - it.ry.from) * p;
+                        if (it.rx) it.tx = it.rx.from + (it.rx.to - it.rx.from) * p;
+                        if (it.rs) it.ts = it.rs.from + (it.rs.to - it.rs.from) * p;
+                        if (it.rr) it.tr = it.rr.from + (it.rr.to - it.rr.from) * p;
+                    }
                 });
             }
-            function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
-            window.addEventListener('scroll', onScroll, { passive: true });
-            window.addEventListener('resize', () => { measure(); update(); });
-            if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(); update(); });
+
+            const LERP = 0.12; // glide factor (~400ms settle after scroll stops)
+            let rafId = null;
+
+            function frame() {
+                let settled = true;
+                items.forEach(it => {
+                    const dy = it.ty - it.y, dx = it.tx - it.x, ds = it.ts - it.s, dr = it.tr - it.r;
+                    if (settled && (Math.abs(dy) > 0.1 || Math.abs(dx) > 0.1 || Math.abs(ds) > 0.001 || Math.abs(dr) > 0.1)) settled = false;
+                    it.y += dy * LERP; it.x += dx * LERP; it.s += ds * LERP; it.r += dr * LERP;
+                    it.el.style.transform =
+                        'translate3d(' + it.x.toFixed(2) + 'px,' + it.y.toFixed(2) + 'px,0)' +
+                        (it.rs ? ' scale(' + it.s.toFixed(4) + ')' : '') +
+                        (it.rr ? ' rotate(' + it.r.toFixed(2) + 'deg)' : '');
+                });
+                rafId = settled ? null : requestAnimationFrame(frame);
+            }
+
+            function wake() {
+                targets();
+                if (rafId === null) rafId = requestAnimationFrame(frame);
+            }
+
+            window.addEventListener('scroll', wake, { passive: true });
+            window.addEventListener('resize', () => { measure(); wake(); });
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(); wake(); });
             measure();
-            update();
+            wake();
         })();
 
         // --- Scroll progress bar ---
